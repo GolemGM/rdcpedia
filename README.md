@@ -1,44 +1,25 @@
-# RDCpedia — Red Dust Colony Encyclopedia
+# RDCpedia v0.2 — static prototype
 
-An independent interactive encyclopedia prototype for **Red Dust Colony**. Uses the supplied Red Dust Colony Wiki XML export (16 October 2026) and the original building/item images provided for this project.
+A working-file prototype for the Red Dust Colony encyclopedia. Open `index.html` locally in your browser. No npm, React, Git, build, or server is required to run the prototype.
 
-## Development
+## What changed since v0.1
+- Paused gameplay fills the available viewport. No second dark overlay is added when the encyclopedia opens.
+- Encyclopedia overlay covers 85% width and height; X closes it.
+- Real landing/Home screen inside Encyclopedia.
+- Selecting a Building or Item category shows a grid of pages in the central area.
+- Selecting a page switches to detail: narrow category rail, bounded quick selection + Contents, central article, Related links.
+- Navigation history follows actual visited views and pages. Breadcrumb labels can navigate to Home or the section/category overview.
+- Original MediaWiki body is partially converted: headings, lists, linked item references, infoboxes, tables. It is not a full MediaWiki parser; unusual templates remain for future iteration.
+- Search matches Building/Item titles. Other thematic sections are pending.
 
-Requires Node.js 20+.
+## Static GitHub Pages
+Included `.github/workflows/deploy.yml` deploys the static files directly. It does not use Node.js, npm, package-lock.json, or a build step. GitHub Pages must use **GitHub Actions** as the source. Do not mix this with the old React project without a deliberate clean replacement.
 
-```bash
-npm install
-npm run dev
-```
+## Source data
+Building/Item entries were imported from the project wiki XML. Images were supplied in the Building.zip and Items.zip archives. Source texts, original images, and project assets should be used only in line with permission from their owners.
 
-Open the local address printed by Vite (normally http://localhost:5173).
-
-## Build
-
-```bash
-npm run build
-```
-
-This creates `dist/`, a static application deployable to GitHub Pages. `vite.config.ts` uses `base: './'` so it also works from a repository subpath.
-
-## Publish to GitHub Pages
-
-1. Push this project to `GolemGM/rdcpedia`.
-2. In repository **Settings → Pages**, select **GitHub Actions** for Build and deployment.
-3. The provided workflow automatically builds on pushes to `main` and deploys the generated static site.
-
-## Current scope — prototype 0.1
-
-- 64 building articles and 43 item articles imported from original Wiki XML; original wiki markup is retained in `src/catalog.json`.
-- 69 building illustrations and 45 item illustrations supplied in the two archives; alternative variants retained in assets.
-- Game-background preview, interactive open/close, navigation, category browser, search, three-entry quick selection, linked article references, scrollable article sections, back/forward visited history, zoom and compact menu.
-- The remaining thematic sections are **marked as upcoming**, not fabricated. Conversion of full guides, research, and features from the existing text sources is the next milestone.
-- Recipe wiki tables are displayed using an initial lightweight renderer; advanced wiki markup may require further parser improvements.
-
-## Attribution and permissions
-
-Game name, images and original game UI belong to their respective owners. Wiki source and game art are provided for the RDCpedia project. **Confirm permission for redistributing the game images publicly before pushing the asset folders to a public repository**. The code carries no claim of official affiliation.
-
-## Notes
-
-The extracted 64 + 43 count does not include exported helper templates, which are intentionally not encyclopedia articles. Individual asset image filenames are mapped from wiki infoboxes. No original uploaded files were modified.
+## Known limitations
+- Rendering is a practical wiki-text subset, not a complete MediaWiki parser.
+- Technology, Colonists, Station, Environment, Guidebook, Features, Controls are currently placeholders.
+- Display font approximates game UI; exact game font is not bundled.
+- Layout/zoom/visual behavior still needs user review in a real browser.
