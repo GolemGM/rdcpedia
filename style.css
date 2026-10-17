@@ -64,3 +64,12 @@ button.tech-unlock:hover{background:#566970}
 .tech-research-link span{font-size:10px;font-weight:bold;color:#b8c5c8}
 .tech-research-link button{background:#53676d;border:1px solid #82949a;border-radius:3px;padding:6px 10px;font-size:11px}
 .tech-research-link button:hover{filter:brightness(1.15)}
+
+/* v0.5.1 — adapt tech flow height to its actual rows; illustrated unlock links. */
+.tech-flow{min-height:0;align-items:start}
+.tech-column{align-self:start}
+.tech-unlocks-grid{align-items:stretch}
+.tech-unlock{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:112px;min-height:112px;padding:8px 5px;text-align:center;overflow-wrap:anywhere}
+.tech-unlock img{display:block;width:80px;height:72px;max-width:100%;object-fit:contain}
+.tech-unlock span{display:block;font-size:10px;line-height:1.25}
+@media(max-width:650px){.tech-unlock{width:92px;min-height:96px}.tech-unlock img{width:65px;height:57px}}
