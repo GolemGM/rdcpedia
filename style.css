@@ -79,3 +79,52 @@ button.tech-unlock:hover{background:#566970}
 .tech-intro h2{margin-top:22px}
 .tech-inline-link{display:inline;padding:0;border:0;background:transparent;color:#d6b59a;text-decoration:underline;font-size:inherit;cursor:pointer}
 .tech-inline-link:hover{color:#f0d5bf}
+
+/* v0.6 Colonists & Survival — full topic sidebar, editorial article, topic-specific related. */
+#workspace.colonists-mode{grid-template-columns:minmax(205px,22%) minmax(0,1fr) minmax(165px,19%);grid-template-areas:'categories article related'}
+#workspace.colonists-mode #middle{display:none}
+#workspace.colonists-mode #related{display:block}
+#workspace.colonists-mode #related.hidden-panel{display:none}
+#workspace.colonists-mode #article{padding:20px 25px}
+#workspace.colonists-mode #categories{overflow:auto}
+.colonist-sidebar .col-home{display:block;width:calc(100% - 12px);margin:8px 6px 12px;padding:11px 9px;text-align:left;background:#334c51;border:1px solid #51666b;border-radius:3px;font-size:12px;font-weight:bold}
+.colonist-sidebar .col-home.active{background:#5a6066;border-color:#a4a1a2}
+.colonist-sidebar .col-group{position:sticky;top:0;background:#34494e;padding:10px 12px 7px;margin-top:9px;border-top:1px solid #506166;border-bottom:1px solid #1a3034;z-index:2;color:#d2dddf;font-weight:bold;font-size:10px;letter-spacing:.7px;text-transform:uppercase}
+.colonist-sidebar .col-nav{display:block;text-align:left;width:calc(100% - 12px);margin:3px 6px;padding:8px 10px;border-radius:3px;border:1px solid #354b4e;background:#273c40;font-size:11px;line-height:1.25}
+.colonist-sidebar .col-nav:hover,.colonist-sidebar .col-home:hover{background:#43595e}
+.colonist-sidebar .col-nav.active{background:#656367;border-color:#afa5a5;color:#fff}
+.colonist-article{max-width:970px;margin:0 auto;padding-bottom:18px}
+.colonist-article .col-eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:bold;color:#bdc7c9;margin:0 0 8px;text-transform:uppercase}
+.colonist-article h1{font-size:26px;margin:0 0 13px}
+.colonist-article .col-lead{font-size:14px;color:#d7e1e1;line-height:1.7;background:#30464b;border-left:3px solid #9c9b9a;padding:12px 14px;margin:0 0 18px}
+.colonist-article p{font-size:12px;line-height:1.7;margin:9px 0 13px}
+.colonist-article h2{font-size:15px;margin:24px 0 10px}
+.colonist-article ul{padding-left:21px;margin:8px 0 14px}
+.colonist-article li{font-size:12px;line-height:1.65;margin:4px 0}
+.colonist-article .col-section{padding-bottom:3px}
+.colonist-article .col-inline{display:inline;padding:0;margin:0;border:0;background:transparent;color:#e4b993;font:inherit;text-decoration:underline;text-underline-offset:2px;line-height:inherit;cursor:pointer}
+.colonist-article .col-inline:hover{color:#ffcfad}
+.colonist-article .col-unavailable{color:#c3c8cb;border-bottom:1px dotted #6f858a;cursor:help}
+.col-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0 24px}
+.col-feature{display:flex;flex-direction:column;align-items:flex-start;min-width:0;gap:7px;padding:15px 12px;background:#2b4146;border:1px solid #506468;border-radius:3px;text-align:left}
+.col-feature:hover{background:#3c5357;border-color:#9b9995}
+.col-feature-icon{font-size:24px;line-height:1;color:#bdced1}
+.col-feature strong{font-size:12px}
+.col-feature small{font-size:10px;line-height:1.4;color:#b1bfc1}
+.col-intro-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.col-intro-group{background:#273b40;border:1px solid #465c5f;border-radius:3px;padding:8px 12px 10px}
+.col-intro-group h2{font-size:12px;margin:3px 0 7px;border-bottom:1px solid #4d6267}
+.col-intro-links{display:flex;flex-direction:column}
+.col-intro-links button{background:transparent;border:0;border-bottom:1px solid #344c50;padding:7px 0;text-align:left;font-size:11px}
+.col-intro-links button:hover{color:#f1ceb3}
+.col-intro-links span{float:right;color:#8faaa9}
+.col-reference-note{color:#aebbbb;font-style:italic}
+.col-end-links{margin-top:24px;padding-top:12px;border-top:1px solid #496064}
+.col-end-links button{background:#354d52;border:1px solid #52676b;border-radius:3px;padding:7px 11px;font-size:11px}
+.col-end-links button:hover{background:#4b6469}
+.col-traits-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.col-trait{display:flex;flex-direction:column;gap:4px;padding:9px 10px;background:#293e43;border:1px solid #465d60;border-radius:3px}
+.col-trait strong{font-size:11px;color:#e1e4e4}
+.col-trait span{font-size:11px;line-height:1.4;color:#bfcacc}
+@media(max-width:1100px){#workspace.colonists-mode{grid-template-columns:minmax(180px,26%) minmax(0,1fr);grid-template-areas:'categories article'}#workspace.colonists-mode #related{display:none}}
+@media(max-width:680px){#workspace.colonists-mode{grid-template-columns:minmax(118px,31%) minmax(0,1fr)}#workspace.colonists-mode #article{padding:10px 9px}.col-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.col-intro-groups,.col-traits-list{grid-template-columns:1fr}.colonist-article h1{font-size:19px}.colonist-article .col-lead{font-size:12px;padding:9px}.colonist-sidebar .col-nav{font-size:10px;padding:7px 5px}.colonist-sidebar .col-group{font-size:9px;padding:8px 5px}.col-feature{padding:10px}.col-feature small{font-size:9px}}
