@@ -58,3 +58,9 @@ button.tech-unlock:hover{background:#566970}
 .tech-not-linked{color:#c0c9ca}
 @media(max-width:1050px){#workspace.technology-mode{grid-template-columns:minmax(145px,23%) minmax(0,1fr);grid-template-areas:'categories article'}#workspace.technology-mode #related{display:none}}
 @media(max-width:650px){#workspace.technology-mode,#workspace.technology-index{grid-template-columns:100px minmax(0,1fr);grid-template-areas:'categories article'}#workspace.technology-mode #categories.compact{width:auto}.tech-nav{font-size:10px}.tech-nav small{display:none}.tech-flow{display:flex;flex-direction:column;align-items:stretch}.tech-arrow{transform:rotate(90deg)}.tech-col-title{text-align:left}.tech-card{min-height:43px}}
+
+/* Research crosslink in an existing building/article detail. */
+.tech-research-link{display:flex;align-items:center;gap:12px;margin:12px 0 3px;padding:9px;background:#293d42;border:1px solid #4c6165;border-radius:3px}
+.tech-research-link span{font-size:10px;font-weight:bold;color:#b8c5c8}
+.tech-research-link button{background:#53676d;border:1px solid #82949a;border-radius:3px;padding:6px 10px;font-size:11px}
+.tech-research-link button:hover{filter:brightness(1.15)}
