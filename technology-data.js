@@ -1,0 +1,25 @@
+/* Research data transcribed from the RDC wiki Research page.
+   gameDescription is intentionally blank unless directly verified from the game.
+   "Opens" is derived only from the listed prerequisite links.
+   Touchdown is the starting package; its unlock list is intentionally omitted. */
+const TECHNOLOGIES = [
+ {name:"Touchdown",group:"Start",tier:0,requires:[],description:"Starting research package available when the colony begins.",gameDescription:"",unlocks:[]},
+ {name:"Botany",group:"Food",tier:1,requires:["Touchdown"],description:"Unlocks access to Botany Projects, which enable the cultivation of new plants and provide space for growing medium-sized plants.",unlocks:["Botany Station","Plant Plot"]},
+ {name:"Liquids",group:"Liquids",tier:1,requires:["Touchdown"],description:"Provides the ability to process ice and wastewater into usable water and secure long-term fluid storage.",unlocks:["Liquid Storage","Ice Processing Station","Waste Processing Station"]},
+ {name:"Oxygen Regulation",group:"Gas",tier:1,requires:["Touchdown"],description:"Provides basic equipment for a self-sustaining atmospheric composition.",gameDescription:"Provides basic equipment for a self-sustaining atmospheric composition.",unlocks:["Oxygen Diffuser","CO2 Scrubber"]},
+ {name:"Concrete Production",group:"Industry",tier:1,requires:["Touchdown"],description:"Enables the processing of local surface regolith into building materials for pressurized base expansion.",unlocks:["Rock Crusher","Concrete Mixer","Concrete Hull"]},
+ {name:"Power Storage",group:"Power",tier:1,requires:["Touchdown"],description:"Enables storage capabilities for generated electrical energy.",unlocks:["Small Battery"]},
+ {name:"Infrastructure",group:"Base",tier:1,requires:["Touchdown"],description:"Provides expanded storage solutions, wider internal access points, and dedicated facilities for incoming off-world shipments and personnel.",unlocks:["Supply Rocket Pad","Double Door","Large Storage Container"]},
+ {name:"Institu Furniture",group:"Lifestyle",tier:1,requires:["Touchdown"],description:"Improves colonist comfort and living standards by providing basic seating, surfaces for dining, and designated spaces to consume daily rations.",unlocks:["Chair","Basic Chair","Small Square Table","Big Square Table","Small Round Table","Big Oval Table"]},
+ {name:"Medical Rest",group:"Medical",tier:1,requires:["Touchdown"],description:"Basic medical care setup for injured or sick colonists.",unlocks:["Medical Bed"]},
+ {name:"Meal Preparation",group:"Food",tier:2,requires:["Botany"],description:"Enables advanced food assembly and temperature-controlled ingredient preservation to optimize meal quality and supply management.",unlocks:["Meal Assembly Table","Coolbox"]},
+ {name:"Utility Planting",group:"Food",tier:2,requires:["Botany"],description:"Expands agricultural capabilities to include specialized fungi cultivation, industrial textile crop processing, and softblock material production.",unlocks:["Mushroom Rack","Softblock Fabricator","Cotton Project for Botany Station"]},
+ {name:"Advanced Planting",group:"Food",tier:2,requires:["Botany","Liquids"],description:"Provides large-scale crop cultivation plots alongside automated soil enrichment processing for higher agricultural output.",unlocks:["Large Plant Plot","Fertilizer Mixer"]},
+ {name:"Air Purification",group:"Gas",tier:2,requires:["Oxygen Regulation"],description:"Introduces active filtration systems to scrub hazardous particulates and toxic trace gases from the internal atmosphere.",unlocks:["Air Purifier"]},
+ {name:"Processing",group:"Industry",tier:2,requires:["Concrete Production"],description:"Enables component assembly and crafting for intermediate manufacturing chains.",unlocks:["Kiln","Assembly Station"]},
+ {name:"Extraction",group:"Industry",tier:2,requires:["Concrete Production"],description:"Facilitates specialized regolith sifting and atmospheric carbon extraction to source raw industrial compounds.",unlocks:["Carbon Extractor","Regolith Sifter"]},
+ {name:"Alternative Generation",group:"Power",tier:2,requires:["Power Storage"],description:"Establishes supplementary power generation networks utilizing atmospheric wind currents and static charge harvesting.",unlocks:["Wind Turbine","Electrostatic Power Harvester"]},
+ {name:"Optical Studies",group:"Power",tier:2,requires:["Power Storage"],description:"Harnesses advanced photovoltaic energy capture alongside high-intensity interior and exterior illumination solutions.",unlocks:["Large Solar Panel","Flood Lights","Neon Flood Lights","Neon Wall Mounted Light","Large Wall Mounted Light"]},
+ {name:"Improved Sleeping",group:"Lifestyle",tier:2,requires:["Institu Furniture"],description:"Provides enhanced personal rest quarters and adjacent storage fixtures for superior colonist recovery.",unlocks:["Double Bed","Bedside Table"]},
+ {name:"Interior Decor",group:"Lifestyle",tier:2,requires:["Institu Furniture"],description:"Adds decorative flora and communal seating options to improve room aesthetics and overall colony morale.",unlocks:["Plant","Bench"]}
+];
