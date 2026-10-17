@@ -128,3 +128,19 @@ button.tech-unlock:hover{background:#566970}
 .col-trait span{font-size:11px;line-height:1.4;color:#bfcacc}
 @media(max-width:1100px){#workspace.colonists-mode{grid-template-columns:minmax(180px,26%) minmax(0,1fr);grid-template-areas:'categories article'}#workspace.colonists-mode #related{display:none}}
 @media(max-width:680px){#workspace.colonists-mode{grid-template-columns:minmax(118px,31%) minmax(0,1fr)}#workspace.colonists-mode #article{padding:10px 9px}.col-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.col-intro-groups,.col-traits-list{grid-template-columns:1fr}.colonist-article h1{font-size:19px}.colonist-article .col-lead{font-size:12px;padding:9px}.colonist-sidebar .col-nav{font-size:10px;padding:7px 5px}.colonist-sidebar .col-group{font-size:9px;padding:8px 5px}.col-feature{padding:10px}.col-feature small{font-size:9px}}
+
+/* v0.7: Station — uses the tested Colonists article design, with its own full sidebar. */
+#workspace.station-mode{grid-template-columns:minmax(205px,22%) minmax(0,1fr) minmax(165px,19%);grid-template-areas:'categories article related'}
+#workspace.station-mode #middle{display:none}
+#workspace.station-mode #related{display:block}
+#workspace.station-mode #related.hidden-panel{display:none}
+#workspace.station-mode #article{padding:20px 25px}
+#workspace.station-mode #categories{overflow:auto}
+.station-sidebar .col-home{display:block;width:calc(100% - 12px);margin:8px 6px 12px;padding:11px 9px;text-align:left;background:#334c51;border:1px solid #51666b;border-radius:3px;font-size:12px;font-weight:bold}
+.station-sidebar .col-home.active{background:#5a6066;border-color:#a4a1a2}
+.station-sidebar .col-group{position:sticky;top:0;background:#34494e;padding:10px 12px 7px;margin-top:9px;border-top:1px solid #506166;border-bottom:1px solid #1a3034;z-index:2;color:#d2dddf;font-weight:bold;font-size:10px;letter-spacing:.7px;text-transform:uppercase}
+.station-sidebar .col-nav{display:block;text-align:left;width:calc(100% - 12px);margin:3px 6px;padding:8px 10px;border-radius:3px;border:1px solid #354b4e;background:#273c40;font-size:11px;line-height:1.25}
+.station-sidebar .col-nav:hover,.station-sidebar .col-home:hover{background:#43595e}
+.station-sidebar .col-nav.active{background:#656367;border-color:#afa5a5;color:#fff}
+@media(max-width:1100px){#workspace.station-mode{grid-template-columns:minmax(180px,26%) minmax(0,1fr);grid-template-areas:'categories article'}#workspace.station-mode #related{display:none}}
+@media(max-width:680px){#workspace.station-mode{grid-template-columns:minmax(118px,31%) minmax(0,1fr)}#workspace.station-mode #article{padding:10px 9px}.station-sidebar .col-nav{font-size:10px;padding:7px 5px}.station-sidebar .col-group{font-size:9px;padding:8px 5px}}
