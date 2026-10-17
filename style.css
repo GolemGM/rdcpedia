@@ -14,3 +14,13 @@
 #pause-menu #open-button{background:#8a7791;border-color:#4f4857;box-shadow:inset 0 0 0 1px #ada1b6;color:#faf5fb;cursor:pointer}
 #pause-menu #open-button:hover,#pause-menu #open-button:focus-visible{filter:brightness(1.12);outline:2px solid #e1d0e5;outline-offset:1px}
 @media(max-height:580px){#pause-menu{width:min(320px,88vw)}.pause-heading{height:26px;flex-basis:26px}.pause-actions{padding:5px;gap:4px}#pause-menu .pause-actions button{flex-basis:29px;padding:3px 5px}}
+
+/* v0.4: direct page lookup — no search results page. */
+#search-area{position:relative;flex:0 0 min(235px,26%);min-width:100px;margin-left:auto}
+#search-area #search{display:block;width:100%;min-width:0;margin:0}
+#search-suggest[hidden]{display:none}
+#search-suggest{position:absolute;top:calc(100% + 3px);right:0;left:0;z-index:50;max-height:min(340px,55vh);overflow-y:auto;background:#1e3035;border:1px solid #637679;border-radius:3px;box-shadow:0 6px 14px #000a}
+#search-suggest button{display:flex;align-items:center;justify-content:space-between;gap:7px;width:100%;padding:9px 8px;border:0;border-bottom:1px solid #354a4e;background:#243a3f;color:#e1e4e4;font-size:12px;text-align:left}
+#search-suggest button:hover,#search-suggest button[aria-selected="true"]{background:#536168}
+#search-suggest small{font-size:10px;color:#b6c6c8}
+@media(max-width:650px){#search-area{flex:0 0 110px;min-width:70px}#search-area #search{max-width:none}}
