@@ -1,3 +1,940 @@
-/* Station topics curated from wiki: Base Infrastructure, Getting Started, Rooms, Management & Operations, Storage Units, Events & Crises, and individual buildings. Values are wiki-reported demo values; unsupported future functions are identified. */
-const STATION_GROUPS = [{"id":"construction","title":"Layout & Construction"},{"id":"orders","title":"Tools & Work Orders"},{"id":"systems","title":"Station Systems"},{"id":"rooms","title":"Rooms & Interior"},{"id":"diagnostics","title":"Overlays & Monitoring"},{"id":"safety","title":"Failures & Hazards"}];
-const STATION_TOPICS = [{"id":"overview","group":"construction","title":"Station Planning & Expansion","lead":"A functioning station needs accessible pressurized space, breathable air, dependable power, water, storage and enough workers to maintain it.","sections":[{"title":"From landing to an independent station","paragraphs":["The expedition starts with a prebuilt [[building:Life Support Machine|Life Support Machine]], which provides initial power, oxygen and CO2 removal. It is temporary: the wiki documents scripted breakdowns.","Expand using [[building:Prefab Hull|Prefab Hull]] or [[building:Concrete Hull|Concrete Hull]], then plan an independent [[station:power|power grid]] and [[station:atmosphere|atmosphere system]]."],"bullets":[]},{"title":"Think in connected systems","paragraphs":["A completed hull is only a shell. [[station:placement|Building placement]], [[station:storage|materials]], [[station:rooms|room layout]], worker paths and electrical connections all affect whether it can be used.","Use the Build Menu to find structures; the corresponding building article gives its cost, placement and required technology."],"bullets":[]},{"title":"Basic expansion checklist","paragraphs":[],"bullets":["Can workers reach the site and return safely through an [[building:Airlock|Airlock]]?","Do you have enough [[station:materials|available construction resources]]?","Does the new area require more [[station:atmosphere|O2 and CO2 capacity]]?","Are machines connected to [[station:power|electricity]]?","Will the room meet [[station:room-types|classification requirements]]?"]}],"related":["station:catalog","station:hulls","station:placement","station:materials","station:atmosphere","station:power","building:Prefab Hull","building:Life Support Machine"]},{"id":"catalog","group":"construction","title":"Construction Menu & Categories","lead":"The bottom-left build interface organises constructible objects into ten categories. Build category, placement and room compatibility are separate properties.","sections":[{"title":"Ten categories","paragraphs":[],"bullets":["Hull — [[building:Prefab Hull|Prefab Hull]], [[building:Concrete Hull|Concrete Hull]], walls, windows, doors, airlocks and hull lighting.","Power — [[building:Wire|Wire]], [[building:Solar Panel|Solar Panel]], [[building:Small Battery|Small Battery]] and other generators.","Gas — [[building:Oxygen Diffuser|Oxygen Diffuser]], [[building:CO2 Scrubber|CO2 Scrubber]], [[building:Wall Vent|Wall Vent]], [[building:Air Purifier|Air Purifier]].","Plumbing — [[building:Ice Processing Station|Ice Processing Station]], [[building:Liquid Storage|Liquid Storage]], [[building:Waste Processing Station|Waste Processing Station]].","Food — [[building:Plant Rack|Plant Rack]], [[building:Plant Plot|Plant Plot]], food storage, botany and cooking equipment.","Industry — [[building:Crafting Table|Crafting Table]], [[building:Smelter|Smelter]] and processing or fabrication machinery.","Base — [[building:Stockpile|Stockpile]], [[building:Storage Container|Storage Container]], [[building:Toilet|Toilet]], beds, lighting and the rocket pad.","Comfort — chairs, tables, benches and decorative plants.","Advancement — [[building:Basic Research Table|Basic Research Table]].","Medical — [[building:Medical Bed|Medical Bed]]."]},{"title":"Exceptions and research","paragraphs":["The [[building:Life Support Machine|Life Support Machine]] is present in the starting settlement but cannot be rebuilt.","Some structures are available immediately; others unlock through [[tech:Infrastructure|Infrastructure]], [[tech:Concrete Production|Concrete Production]] and further technology."],"bullets":[]},{"title":"Placement is separate","paragraphs":["For example, the Power category includes outdoor [[building:Solar Panel|Solar Panels]] and [[building:Wire|Wires]], which can run inside or outside. See [[station:placement|Placement Rules]]."],"bullets":[]}],"related":["station:placement","station:materials","station:hulls","building:Wire","building:Life Support Machine","tech:Infrastructure"]},{"id":"placement","group":"construction","title":"Indoor & Outdoor Placement","lead":"Each structure has a placement condition. Its build-menu category does not tell you where it can be placed.","sections":[{"title":"Building placement types","paragraphs":[],"bullets":["Inside — ordinary interior equipment such as [[building:Toilet|Toilet]], [[building:Bed|Bed]], [[building:Storage Container|Storage Container]] and [[building:Oxygen Diffuser|Oxygen Diffuser]].","Outside — outdoor equipment such as [[building:Stockpile|Stockpile]], [[building:Solar Panel|Solar Panel]] and [[building:Supply Rocket Pad|Supply Rocket Pad]].","Floor / Grid — [[building:Prefab Hull|Prefab Hull]] and [[building:Concrete Hull|Concrete Hull]] extend the station footprint.","Inside Hull — [[building:Wall|Wall]] partitions.","Wall Mounted / Wall Perimeter — [[building:Window|Windows]], [[building:Wall Vent|Vents]] and [[building:Airlock|Airlock]].","Anywhere — [[building:Wire|Wire]] may cross indoor surfaces and outside terrain."]},{"title":"A rejected building location","paragraphs":["Check the building article for its exact Placement field. An incompatible surface, missing wall or unsuitable indoor/outdoor zone may explain a rejected preview.","The available wiki material does not specify every clearance, obstruction or collision rule. We will not invent a universal fix."],"bullets":[]},{"title":"Outside worker safety","paragraphs":["Jobs beyond the hull require safe [[colonist:outside|suit oxygen and return routes]]. During [[station:storms|dust storms]], outside travel is normally restricted.","The Supply Rocket Pad additionally requires a clear outdoor site and [[tech:Infrastructure|Infrastructure]]."],"bullets":[]}],"related":["station:hulls","station:partitions","station:storms","building:Airlock","building:Stockpile","building:Solar Panel","building:Wire","colonist:outside"]},{"id":"hulls","group":"construction","title":"Hull, Floors & Pressure Boundary","lead":"Hull tiles create the station floor footprint, automatically generating walls around the perimeter.","sections":[{"title":"Expanding floor space","paragraphs":["[[building:Prefab Hull|Prefab Hull]] uses prefab [[item:Hull|Hull]] segments, can be dragged across the planned floor and is available early.","[[building:Concrete Hull|Concrete Hull]] uses [[item:Concrete|Concrete]] produced from local materials and requires [[tech:Concrete Production|Concrete Production]]."],"bullets":[]},{"title":"Pressure boundary and interiors","paragraphs":["As the hull footprint grows, exterior walls form automatically. Interior [[building:Wall|Walls]] remain separate constructions used for room divisions.","A physically enclosed area still needs adequate [[station:atmosphere|oxygen and CO2 management]]. Check the [[station:overlays|F1/F2 overlays]] after a major expansion."],"bullets":[]},{"title":"Removing hull is restricted","paragraphs":["Hull deconstruction protects structural integrity, attached airlocks, interior facilities and routes needed for access. You may need to clear the enclosed objects before the floor can be removed.","Use [[station:deconstruct|Deconstruct [X]]] and select the [[station:priority|Hull filter]] to affect only structural floor elements."],"bullets":[]}],"related":["station:partitions","station:priority","station:deconstruct","station:atmosphere","building:Prefab Hull","building:Concrete Hull","item:Hull","item:Concrete"]},{"id":"partitions","group":"construction","title":"Walls, Doors, Windows & Vents","lead":"Partitions create interior spaces without extending the outer hull, while doors, windows and vents serve different purposes.","sections":[{"title":"Walls and passages","paragraphs":["[[building:Wall|Wall]] subdivides hull interior. [[building:Door|Door]] and [[building:Double Door|Double Door]] provide access between areas and can restrict individual colonists.","Both door sizes exchange air even when closed according to their wiki articles. Do not assume a closed door forms an airtight seal. Double Door is unlocked by [[tech:Infrastructure|Infrastructure]]."],"bullets":[]},{"title":"Windows and vents","paragraphs":["[[building:Window|Window]] is a sealed wall-mounted visual fitting; the wiki says it does not grant an automatic colonist mood bonus.","[[building:Wall Vent|Wall Vent]] also lets air pass between rooms, but a vent is not automatically necessary beside every door because doors exchange air themselves."],"bullets":[]},{"title":"Removing partitions","paragraphs":["A wall-mounted object can block removal of the wall supporting it. Clear attached objects when needed.","Use the [[station:priority|Building target filter]] for interior structures while excluding Hull and Wires. Recognised [[station:rooms|rooms]] also depend on permitted object categories."],"bullets":[]}],"related":["station:rooms","station:atmosphere","station:priority","building:Wall","building:Door","building:Double Door","building:Wall Vent","building:Window"]},{"id":"materials","group":"orders","title":"Construction Jobs & Materials","lead":"A placed building becomes a job. Completion still requires materials, a permitted builder and access to the construction site.","sections":[{"title":"Reading supply availability","paragraphs":["The upper-right HUD distinguishes Total, Available, In Use and Needed. The Needed figure records resources requested by pending construction jobs; Available is stock not yet reserved.","A colonist must be allowed to perform Construction in [[colonist:priorities|Work Priorities]], and [[station:priority|world-task priority]] controls the urgency of the order."],"bullets":[]},{"title":"When building stops","paragraphs":["Check missing [[item:Iron Plate|Iron Plates]], [[item:Mechanical Parts|Mechanical Parts]], [[item:Electronic Parts|Electronic Parts]] or whatever the specific building requires. Confirm access and a suitable storage location.","Raising a task to emergency priority cannot supply missing materials or override a colonist's banned activity."],"bullets":[]},{"title":"Building what matters first","paragraphs":["High priorities are useful for life-support installation and emergency [[station:hulls|hull repairs]]. Use [[station:priority|target filters]] when selecting Hull or Wires instead of regular structures."],"bullets":[]}],"related":["station:priority","station:inventory","station:storage","station:placement","colonist:priorities","item:Iron Plate","item:Mechanical Parts"]},{"id":"mining","group":"orders","title":"Mining & Terrain Orders","lead":"Use the Mine command to extract terrain resources or clear ground for future work.","sections":[{"title":"Mine [G]","paragraphs":["The Mine tool (G) works on one tile or a drag-selected area. Documented materials include [[item:Regolith|Regolith]], [[item:Iron Ore|Iron Ore]], [[item:Copper Ore|Copper Ore]] and [[item:Ice|Ice]].","A priority may be selected before marking the mining area."],"bullets":[]},{"title":"Hauling mined resources","paragraphs":["Mining produces resources that need moving. Outdoor [[building:Stockpile|Stockpiles]] are intended for bulk solids.","Use [[station:deconstruct|Cancel [C]]] to withdraw unfinished mining orders, rather than Deconstruct [X] for built objects."],"bullets":[]},{"title":"Worker assignments and exposure","paragraphs":["A worker still needs Mining permission under [[colonist:priorities|Work Priorities]]. For remote tasks, account for [[colonist:outside|suit oxygen]], travel time and [[station:storms|dust storms]]."],"bullets":[]}],"related":["station:priority","station:deconstruct","station:storage","station:storms","building:Stockpile","item:Ice","colonist:outside"]},{"id":"deconstruct","group":"orders","title":"Cancel, Deconstruct & Move","lead":"Removing pending orders is different from dismantling completed buildings. Moving objects is a third operation with its own restrictions.","sections":[{"title":"Bottom-right action tools","paragraphs":[],"bullets":["Cancel [C] — cancel designated mining, construction or deconstruction assignments.","Deconstruct [X] — dismantle completed structures and recover materials where applicable.","Priority [P] — change urgency of selectable jobs or objects.","The object panel also offers applicable actions such as Deconstruct, Cancel and Priority."]},{"title":"Multi-select [Shift + Click]","paragraphs":["Hold Shift to select multiple objects. The multi-selection window supports actions including Deconstruct, Move and shared compatible device controls.","Common controls such as Enable/Disable may be applied to selected compatible devices. Storage Permission commands are an exception."],"bullets":[]},{"title":"Structural exceptions","paragraphs":["[[station:hulls|Hull]], [[building:Wall|Walls]] and [[building:Wire|Wires]] cannot be moved as furniture can; they must be deconstructed and rebuilt.","The game prevents removing hull tiles needed for pressure boundary, attached structures or worker access. Use the correct [[station:priority|Building / Hull / Wires filter]] before painting an action."],"bullets":[]},{"title":"Deconstruction drops","paragraphs":["The Management wiki documents dropped objects retaining active cleanup priority after deconstruction or storage relocation, even if manually lowered. Treat this as an observed demo behaviour."],"bullets":[]}],"related":["station:priority","station:hulls","station:storage","building:Wall","building:Wire","colonist:priorities"]},{"id":"priority","group":"orders","title":"Priority Tool & Target Filters","lead":"Priority [P] sets job urgency from 1 to 9. A separate target filter controls whether an area action applies to buildings, hull or wires.","sections":[{"title":"Priority scale","paragraphs":[],"bullets":["1–4 — background jobs and lower-urgency work.","5 — default for new construction, objects and hauling.","6–8 — high priority for critical construction, maintenance or production.","9 — emergency work, such as finishing shelter walls or sealing a breach."]},{"title":"Filters for area tools","paragraphs":["Target filters are available with area-based action tools, including Priority, Deconstruct and Cancel."],"bullets":["All — every player-built object in the selected area.","Building (default) — interior machinery, walls, windows, lights, furniture and placed facilities; does NOT include structural Hull or Wires.","Hull — structural hull segments only.","Wires — electrical wire segments only."]},{"title":"Why your Hull or Wires were ignored","paragraphs":["If raising priority over an area affects furniture but not the floor or cable, the Building filter may still be active. Select Hull or Wires explicitly, then issue the action.","Filters select targets; they do not override [[station:hulls|structural rules]] or supply missing [[station:materials|materials]]."],"bullets":[]},{"title":"Priority on structures versus on colonists","paragraphs":["[[colonist:priorities|Work Priorities]] determine which people can build, haul or service. Priority [P] determines which specific eligible world errand should happen sooner. The systems complement rather than replace each other."],"bullets":[]}],"related":["station:deconstruct","station:materials","station:hulls","station:power","colonist:priorities","building:Wire"]},{"id":"power","group":"systems","title":"Electricity, Wires & Batteries","lead":"Power producers, consumers and batteries form connected electrical grids. F4 visualises the links.","sections":[{"title":"Generators and storage","paragraphs":["Outdoor [[building:Solar Panel|Solar Panels]] provide early power. [[building:Small Battery|Small Batteries]] store surplus electricity for periods of insufficient production.","Further research introduces [[building:Wind Turbine|Wind Turbine]], [[building:Electrostatic Power Harvester|Electrostatic Power Harvester]] and [[building:Large Solar Panel|Large Solar Panel]]."],"bullets":[]},{"title":"Laying Wires","paragraphs":["[[building:Wire|Wire]] costs [[item:Copper Wire|Copper Wire]] per segment, can run inside or outside, and can be dragged across multiple tiles. Selecting it automatically activates the [[station:overlays|F4 Power Components Overlay]].","Hovering a cable displays the network's current load and maximum capacity. F4 also shows connected sources, batteries and consumers."],"bullets":[]},{"title":"Power loss and controls","paragraphs":["Unpowered machines may indicate a broken or incomplete connection, insufficient generation or empty storage. During [[station:storms|dust storms]], solar production stops and wind generation increases.","Disabled machines stop working, consuming power and wearing down according to the wiki. Use the [[station:priority|Wires filter]] when deconstructing only cables."],"bullets":[]}],"related":["station:overlays","station:storms","station:production","station:priority","building:Wire","building:Solar Panel","building:Small Battery","item:Copper Wire"]},{"id":"atmosphere","group":"systems","title":"Atmosphere & Life Support","lead":"Pressure alone cannot keep colonists alive; enclosed rooms require adequate oxygen and sufficiently low CO2.","sections":[{"title":"Replacing the landing machine","paragraphs":["The prebuilt [[building:Life Support Machine|Life Support Machine]] initially supplies power, oxygen and CO2 removal, but degrades and eventually fails permanently.","[[building:Oxygen Diffuser|Oxygen Diffusers]] and [[building:CO2 Scrubber|CO2 Scrubbers]] provide independent control after [[tech:Oxygen Regulation|Oxygen Regulation]]."],"bullets":[]},{"title":"Oxygen [F1]","paragraphs":["The wiki reports F1 colours from roughly 600 oxygen (turquoise) to 50 (red). Low levels cause difficulty breathing; prolonged deprivation may be fatal.","Oxygen Diffusers consume [[item:Water|Water]] and electricity; larger stations may need additional units as coverage becomes insufficient."],"bullets":[]},{"title":"CO2 [F2] and hazardous gases [F3]","paragraphs":["F2 shows CO2, with 0 ideal and around 30 dangerous. High CO2 causes headaches, dizziness and potentially unconsciousness.","F3 toxin monitoring and [[building:Air Purifier|Air Purifier]] are visible but hazardous-gas gameplay is not active in the current demo."],"bullets":[]},{"title":"Doors and ventilation","paragraphs":["[[building:Door|Door]] and [[building:Double Door|Double Door]] exchange air even while closed, while [[building:Wall Vent|Wall Vent]] also allows gas flow between adjacent rooms. This does not prove that every separated area needs a vent."],"bullets":[]}],"related":["station:overlays","station:power","station:failures","station:partitions","colonist:atmosphere","building:Life Support Machine","building:Oxygen Diffuser","building:CO2 Scrubber"]},{"id":"water","group":"systems","title":"Water, Waste & Plumbing","lead":"Water links oxygen production, crops and toilets. Storage and processing are vital as the base grows.","sections":[{"title":"Water production and treatment","paragraphs":["[[item:Ice|Ice]] mined outside can be processed at an [[building:Ice Processing Station|Ice Processing Station]] into [[item:Water|Water]].","[[building:Waste Processing Station|Waste Processing Station]] provides waste processing, while [[building:Liquid Storage|Liquid Storage]] is dedicated to fluids."],"bullets":[]},{"title":"Main consumers and outputs","paragraphs":["[[building:Oxygen Diffuser|Oxygen Diffuser]] consumes water for oxygen production. [[building:Plant Rack|Plant Rack]], [[building:Plant Plot|Plant Plot]] and other crops need water.","[[building:Toilet|Toilet]] uses Water and produces [[item:Waste|Waste]]. Shortages may interfere with farming, hygiene and atmosphere management."],"bullets":[]},{"title":"F5 Plumbing Overlay","paragraphs":["The current demo wiki explicitly describes the F5 Plumbing Overlay as non-functional. Do not assume there is a completed visible pipe-network mechanic.","Inspect machines and [[station:inventory|resource quantities]] directly when diagnosing problems."],"bullets":[]}],"related":["station:overlays","station:atmosphere","station:storage","station:inventory","building:Ice Processing Station","building:Waste Processing Station","building:Toilet","item:Water","item:Waste"]},{"id":"production","group":"systems","title":"Production & Machine Controls","lead":"Production machines support automated recipe rules and status controls.","sections":[{"title":"What a machine needs","paragraphs":["A facility may need material inputs, electrical power, storage space and an eligible operating colonist. [[colonist:priorities|Work Priorities]] decides who may operate or craft.","[[building:Crafting Table|Crafting Table]], [[building:Smelter|Smelter]], [[building:Assembly Station|Assembly Station]] and [[building:Meal Assembly Table|Meal Assembly Table]] serve different production chains."],"bullets":[]},{"title":"Recipe modes","paragraphs":[],"bullets":["Fixed quantity — run a set number of recipe batches.","If less than — automatically produce while the total stock is below a chosen target.","Continuous (∞) — keep producing while ingredients, electricity and other requirements permit."]},{"title":"Machine status and disabling","paragraphs":["Station interfaces show operational conditions such as waiting for inputs, workers or output space. A disabled machine stops production, maintenance requirements and active power draw.","Place suitable [[station:storage|storage]] nearby to reduce hauling routes and keep chains supplied."],"bullets":[]}],"related":["station:storage","station:power","station:priority","colonist:priorities","building:Crafting Table","building:Smelter","building:Meal Assembly Table"]},{"id":"storage","group":"systems","title":"Storage, Permissions & Hauling","lead":"Different storage units accept different resources; placement, permissions and priority affect logistics.","sections":[{"title":"Four storage categories","paragraphs":[],"bullets":["[[building:Stockpile|Stockpile]] — outdoor bulk materials and raw solids.","[[building:Storage Container|Storage Container]] / [[building:Large Storage Container|Large Storage Container]] — indoor general items and components.","[[building:Liquid Storage|Liquid Storage]] — fluids and gases.","[[building:Coolbox|Coolbox]] — perishables and prepared food, cooled using [[item:Ice|Ice]]."]},{"title":"Permissions","paragraphs":["The wiki states that Storage Containers and Stockpiles allow permission settings even before their construction has completed.","Allowed item categories can be copied between compatible containers. A high priority cannot override storage compatibility."],"bullets":[]},{"title":"Priorities and worker routes","paragraphs":["High-priority containers actively attract eligible loose supplies. A storage unit close to a production station shortens hauling trips and reduces delays.","Dropped resources after storage relocation may retain active cleanup priority in the demo. See [[station:deconstruct|Deconstruction & Move]]."],"bullets":[]}],"related":["station:inventory","station:priority","station:production","station:deconstruct","building:Stockpile","building:Storage Container","building:Coolbox","building:Liquid Storage"]},{"id":"rooms","group":"rooms","title":"Room Recognition & Functions","lead":"Rooms are automatically recognised enclosed zones with minimum size and required furniture categories.","sections":[{"title":"How to create a room","paragraphs":["Partition an enclosed [[station:hulls|hull]] using [[building:Wall|Walls]] and a suitable [[building:Door|Door]], then install the room's required object classes.","F7 [[station:overlays|Room Overlay]] colours recognised rooms and shows their requirements on hover."],"bullets":[]},{"title":"Allowed categories matter","paragraphs":["A room needs its minimum floor-cell count, the required items and only categories that the room permits. Adding incompatible equipment can turn it back into an unclassified space.","See [[station:room-types|Room Types & Requirements]] for the full wiki specification."],"bullets":[]},{"title":"What currently has an effect","paragraphs":["The wiki describes rooms primarily as organisational in the demo. Bathrooms give privacy when using toilets, while Bedrooms and Barracks automatically dim lights during sleep.","Other room functions are not documented as active in the demo. [[building:Wall Vent|Wall Vents]] support airflow, but closed doors also exchange air."],"bullets":[]}],"related":["station:room-types","station:overlays","station:partitions","colonist:bladder","colonist:energy","building:Door","building:Toilet"]},{"id":"room-types","group":"rooms","title":"Room Types & Requirements","lead":"The wiki describes ten room definitions; type recognition does not mean each has an active mechanical bonus in the demo.","sections":[{"title":"Living spaces","paragraphs":[],"bullets":["Bedroom — minimum 8 cells, 1–2 Beds; allowed: Beds, Seating, Tables.","Barracks — minimum 12 cells, 1+ Bunk; allowed: Beds, Bunks, Seating, Tables.","Dining — minimum 8 cells, 1+ Seating and 1+ Table; allowed: Seating, Tables.","Recreation — minimum 8 cells, 1+ Seating and 1+ Entertainment; allowed: Seating, Tables, Entertainment.","Bathroom — minimum 4 cells, 1+ Bathroom-category object; allowed: Bathroom, Utility."]},{"title":"Working rooms","paragraphs":[],"bullets":["Greenhouse — minimum 8 cells, 1+ Growing; allowed: Growing, Utility.","Workshop — minimum 8 cells, 1+ Crafting; allowed: Seating, Tables, Crafting, Utility.","Lab — minimum 8 cells, 1+ Research; allowed: Seating, Tables, Research, Utility.","Medical — minimum 8 cells, 1+ Medical; allowed: Seating, Tables, Medical, Utility.","Kitchen — minimum 8 cells, 1+ Food Storage and 1+ Cooking; allowed: Seating, Tables, Cooking, Food Storage, Utility."]},{"title":"Examples and checks","paragraphs":["[[building:Bed|Bed]] and [[building:Bunk Bed|Bunk Bed]] fit sleeping rooms, [[building:Toilet|Toilet]] supports Bathroom recognition, while [[building:Meal Assembly Table|Meal Assembly Table]] and [[building:Coolbox|Coolbox]] fit a Kitchen.","Use F7 to check the recognition state. Only limited room functions are active in the demo; do not expect a documented bonus for every listed type."],"bullets":[]}],"related":["station:rooms","station:overlays","building:Bed","building:Bunk Bed","building:Toilet","building:Meal Assembly Table","building:Coolbox","building:Basic Research Table"]},{"id":"overlays","group":"diagnostics","title":"Diagnostic Overlays [F1–F7]","lead":"Use overlays to identify problems that are hard to see in the ordinary colony view.","sections":[{"title":"Atmosphere","paragraphs":[],"bullets":["F1 — Oxygen: turquoise near 600, critical red near 50 in the wiki's demo reference.","F2 — CO2: ideal 0, hazardous around 30.","F3 — Hazardous Gases: the overlay exists (0 ideal, 20 hazardous), but the toxic-gas mechanic is not active in the demo."]},{"title":"Station systems","paragraphs":[],"bullets":["F4 — Power Components: electrical wires, generators, battery charge and consumers.","F5 — Plumbing: non-functional in the current demo.","F7 — Rooms: recognised categories, colour highlighting and requirements shown on hover."]},{"title":"Practical use","paragraphs":["Use F1/F2 after [[station:hulls|expanding hull]], F4 when machines lack power, and F7 when a room does not classify as expected.","The Wire build tool automatically activates F4. The wiki does not give a confirmed F6 function, so none is invented."],"bullets":[]}],"related":["station:views","station:room-types","station:atmosphere","station:power","station:water","building:Wire"]},{"id":"views","group":"diagnostics","title":"Station Viewing Modes","lead":"Viewing modes change the camera representation of the base, not the physical station.","sections":[{"title":"Four views","paragraphs":[],"bullets":["Complete — display hull including ceilings.","Ceiling-Free — hide ceilings to inspect internal equipment.","Minimal Floor — display a reduced floor-grid view.","X-Ray — reveal colonists through walls."]},{"title":"Why change view","paragraphs":["Ceiling-free and floor views help select interior [[building:Wall|Walls]], [[building:Wire|Wires]] and machines. X-Ray helps locate colonists.","For actual resource, gas, power and room diagnoses, use [[station:overlays|Overlays]] instead."],"bullets":[]}],"related":["station:overlays","station:partitions","station:hulls","building:Wall","building:Wire","colonist:crew"]},{"id":"inventory","group":"diagnostics","title":"Resource HUD & Inventory States","lead":"A visible stock total is not necessarily available for new orders if some items are already reserved.","sections":[{"title":"Reading the top-right tooltip","paragraphs":[],"bullets":["Total — all tracked units in the colony.","Available — stored stock free for building or production.","In Use — resources reserved or already assigned to jobs.","Needed — quantities required by pending construction orders."]},{"title":"Troubleshooting a shortage","paragraphs":["If Total is higher than Available, look for resources reserved for other jobs. Compare Needed with the cost of the desired building.","Check [[station:storage|storage permissions]], [[station:production|producer supply]], worker hauling and [[station:priority|task queues]]. The same symptom can have several causes."],"bullets":[]}],"related":["station:materials","station:storage","station:production","station:priority","item:Iron Plate","item:Electronic Parts"]},{"id":"failures","group":"safety","title":"Life Support Failure & Emergency Repairs","lead":"The starting Life Support Machine is temporary, forcing the colony to build independent oxygen, CO2 and power systems.","sections":[{"title":"First breakdown, around Sol 5","paragraphs":["The wiki documents an initial scripted failure and a repair choice, followed by a warning that the fix will not last.","Begin replacing the landing systems with [[building:Oxygen Diffuser|Oxygen Diffuser]], [[building:CO2 Scrubber|CO2 Scrubber]] and reliable [[station:power|power]]."],"bullets":[]},{"title":"Permanent failure, end of Sol 14","paragraphs":["A second breakdown permanently disables the starting [[building:Life Support Machine|Life Support Machine]]. Its materials may be recovered by deconstructing it after the final failure.","Depend on your own infrastructure before that event."],"bullets":[]},{"title":"Emergency diagnosis","paragraphs":["Check [[station:overlays|F1 Oxygen, F2 CO2 and F4 Power]] together. Loss of electricity can stop otherwise healthy atmosphere machines.","Set urgent construction or servicing to [[station:priority|high/emergency priority]], remembering that materials, eligible workers and access are still necessary."],"bullets":[]}],"related":["station:atmosphere","station:power","station:overlays","station:priority","building:Life Support Machine","building:Oxygen Diffuser","building:CO2 Scrubber"]},{"id":"storms","group":"safety","title":"Dust Storms & Outdoor Safety","lead":"Storms affect the power balance, outdoor work and, in some cases, the ability to receive new colonists.","sections":[{"title":"Power during a storm","paragraphs":["[[building:Solar Panel|Solar Panels]] stop generating during storms; smaller units collect dust and require cleaning. [[building:Large Solar Panel|Large Solar Panels]] retract protective covers.","[[building:Wind Turbine|Wind Turbines]] double their output according to the wiki."],"bullets":[]},{"title":"Outdoor jobs","paragraphs":["Colonists are automatically restricted from leaving the station in a dust storm. The player can override this using “Allow colonists to go outside”, but outdoor work incurs increasing mood penalties.","Factor in suit oxygen, [[colonist:outside|travel time]] and urgent return access before authorising emergency tasks."],"bullets":[]},{"title":"Events and deliveries","paragraphs":["Storm warnings show a countdown and duration in the HUD. The wiki lists meteor strikes and cold waves only as planned future events.","An active storm prevents accepting a new crew drop pod; the [[building:Supply Rocket Pad|Supply Rocket Pad]] is also required for recruitment."],"bullets":[]}],"related":["station:power","station:placement","station:mining","colonist:outside","building:Solar Panel","building:Large Solar Panel","building:Wind Turbine","building:Supply Rocket Pad"]}];
+/* Station reference data. Derived from the user-maintained Red Dust Colony Wiki:
+   Base Infrastructure, Getting Started, Rooms, Management & Operations,
+   Storage Units, Events & Crises, and individual building articles.
+   Demo-era numbers and inactive mechanics are marked within the topic text.
+   To update a topic, edit its paragraphs / bullets here without changing the UI. */
+const STATION_GROUPS = [
+  {
+    "id": "construction",
+    "title": "Layout & Construction"
+  },
+  {
+    "id": "orders",
+    "title": "Tools & Work Orders"
+  },
+  {
+    "id": "systems",
+    "title": "Station Systems"
+  },
+  {
+    "id": "rooms",
+    "title": "Rooms & Interior"
+  },
+  {
+    "id": "diagnostics",
+    "title": "Overlays & Monitoring"
+  },
+  {
+    "id": "safety",
+    "title": "Failures & Hazards"
+  }
+];
+
+const STATION_TOPICS = [
+  {
+    "id": "overview",
+    "group": "construction",
+    "title": "Station Planning & Expansion",
+    "lead": "A functioning station needs accessible pressurized space, breathable air, dependable power, water, storage and enough workers to maintain it.",
+    "sections": [
+      {
+        "title": "From landing to an independent station",
+        "paragraphs": [
+          "The expedition starts with a prebuilt [[building:Life Support Machine|Life Support Machine]], which provides initial power, oxygen and CO2 removal. It is temporary: the wiki documents scripted breakdowns.",
+          "Expand using [[building:Prefab Hull|Prefab Hull]] or [[building:Concrete Hull|Concrete Hull]], then plan an independent [[station:power|power grid]] and [[station:atmosphere|atmosphere system]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Think in connected systems",
+        "paragraphs": [
+          "A completed hull is only a shell. [[station:placement|Building placement]], [[station:storage|materials]], [[station:rooms|room layout]], worker paths and electrical connections all affect whether it can be used.",
+          "Use the Build Menu to find structures; the corresponding building article gives its cost, placement and required technology."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Basic expansion checklist",
+        "paragraphs": [],
+        "bullets": [
+          "Can workers reach the site and return safely through an [[building:Airlock|Airlock]]?",
+          "Do you have enough [[station:materials|available construction resources]]?",
+          "Does the new area require more [[station:atmosphere|O2 and CO2 capacity]]?",
+          "Are machines connected to [[station:power|electricity]]?",
+          "Will the room meet [[station:room-types|classification requirements]]?"
+        ]
+      }
+    ],
+    "related": [
+      "station:catalog",
+      "station:hulls",
+      "station:placement",
+      "station:materials",
+      "station:atmosphere",
+      "station:power",
+      "building:Prefab Hull",
+      "building:Life Support Machine"
+    ]
+  },
+  {
+    "id": "catalog",
+    "group": "construction",
+    "title": "Construction Menu & Categories",
+    "lead": "The bottom-left build interface organises constructible objects into ten categories. Build category, placement and room compatibility are separate properties.",
+    "sections": [
+      {
+        "title": "Ten categories",
+        "paragraphs": [],
+        "bullets": [
+          "Hull — [[building:Prefab Hull|Prefab Hull]], [[building:Concrete Hull|Concrete Hull]], walls, windows, doors, airlocks and hull lighting.",
+          "Power — [[building:Wire|Wire]], [[building:Solar Panel|Solar Panel]], [[building:Small Battery|Small Battery]] and other generators.",
+          "Gas — [[building:Oxygen Diffuser|Oxygen Diffuser]], [[building:CO2 Scrubber|CO2 Scrubber]], [[building:Wall Vent|Wall Vent]], [[building:Air Purifier|Air Purifier]].",
+          "Plumbing — [[building:Ice Processing Station|Ice Processing Station]], [[building:Liquid Storage|Liquid Storage]], [[building:Waste Processing Station|Waste Processing Station]].",
+          "Food — [[building:Plant Rack|Plant Rack]], [[building:Plant Plot|Plant Plot]], food storage, botany and cooking equipment.",
+          "Industry — [[building:Crafting Table|Crafting Table]], [[building:Smelter|Smelter]] and processing or fabrication machinery.",
+          "Base — [[building:Stockpile|Stockpile]], [[building:Storage Container|Storage Container]], [[building:Toilet|Toilet]], beds, lighting and the rocket pad.",
+          "Comfort — chairs, tables, benches and decorative plants.",
+          "Advancement — [[building:Basic Research Table|Basic Research Table]].",
+          "Medical — [[building:Medical Bed|Medical Bed]]."
+        ]
+      },
+      {
+        "title": "Exceptions and research",
+        "paragraphs": [
+          "The [[building:Life Support Machine|Life Support Machine]] is present in the starting settlement but cannot be rebuilt.",
+          "Some structures are available immediately; others unlock through [[tech:Infrastructure|Infrastructure]], [[tech:Concrete Production|Concrete Production]] and further technology."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Placement is separate",
+        "paragraphs": [
+          "For example, the Power category includes outdoor [[building:Solar Panel|Solar Panels]] and [[building:Wire|Wires]], which can run inside or outside. See [[station:placement|Placement Rules]]."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:placement",
+      "station:materials",
+      "station:hulls",
+      "building:Wire",
+      "building:Life Support Machine",
+      "tech:Infrastructure"
+    ]
+  },
+  {
+    "id": "placement",
+    "group": "construction",
+    "title": "Indoor & Outdoor Placement",
+    "lead": "Each structure has a placement condition. Its build-menu category does not tell you where it can be placed.",
+    "sections": [
+      {
+        "title": "Building placement types",
+        "paragraphs": [],
+        "bullets": [
+          "Inside — ordinary interior equipment such as [[building:Toilet|Toilet]], [[building:Bed|Bed]], [[building:Storage Container|Storage Container]] and [[building:Oxygen Diffuser|Oxygen Diffuser]].",
+          "Outside — outdoor equipment such as [[building:Stockpile|Stockpile]], [[building:Solar Panel|Solar Panel]] and [[building:Supply Rocket Pad|Supply Rocket Pad]].",
+          "Floor / Grid — [[building:Prefab Hull|Prefab Hull]] and [[building:Concrete Hull|Concrete Hull]] extend the station footprint.",
+          "Inside Hull — [[building:Wall|Wall]] partitions.",
+          "Wall Mounted / Wall Perimeter — [[building:Window|Windows]], [[building:Wall Vent|Vents]] and [[building:Airlock|Airlock]].",
+          "Anywhere — [[building:Wire|Wire]] may cross indoor surfaces and outside terrain."
+        ]
+      },
+      {
+        "title": "A rejected building location",
+        "paragraphs": [
+          "Check the building article for its exact Placement field. An incompatible surface, missing wall or unsuitable indoor/outdoor zone may explain a rejected preview.",
+          "The available wiki material does not specify every clearance, obstruction or collision rule. We will not invent a universal fix."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Outside worker safety",
+        "paragraphs": [
+          "Jobs beyond the hull require safe [[colonist:outside|suit oxygen and return routes]]. During [[station:storms|dust storms]], outside travel is normally restricted.",
+          "The Supply Rocket Pad additionally requires a clear outdoor site and [[tech:Infrastructure|Infrastructure]]."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:hulls",
+      "station:partitions",
+      "station:storms",
+      "building:Airlock",
+      "building:Stockpile",
+      "building:Solar Panel",
+      "building:Wire",
+      "colonist:outside"
+    ]
+  },
+  {
+    "id": "hulls",
+    "group": "construction",
+    "title": "Hull, Floors & Pressure Boundary",
+    "lead": "Hull tiles create the station floor footprint, automatically generating walls around the perimeter.",
+    "sections": [
+      {
+        "title": "Expanding floor space",
+        "paragraphs": [
+          "[[building:Prefab Hull|Prefab Hull]] uses prefab [[item:Hull|Hull]] segments, can be dragged across the planned floor and is available early.",
+          "[[building:Concrete Hull|Concrete Hull]] uses [[item:Concrete|Concrete]] produced from local materials and requires [[tech:Concrete Production|Concrete Production]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Pressure boundary and interiors",
+        "paragraphs": [
+          "As the hull footprint grows, exterior walls form automatically. Interior [[building:Wall|Walls]] remain separate constructions used for room divisions.",
+          "A physically enclosed area still needs adequate [[station:atmosphere|oxygen and CO2 management]]. Check the [[station:overlays|F1/F2 overlays]] after a major expansion."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Removing hull is restricted",
+        "paragraphs": [
+          "Hull deconstruction protects structural integrity, attached airlocks, interior facilities and routes needed for access. You may need to clear the enclosed objects before the floor can be removed.",
+          "Use [[station:deconstruct|Deconstruct [X]]] and select the [[station:priority|Hull filter]] to affect only structural floor elements."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:partitions",
+      "station:priority",
+      "station:deconstruct",
+      "station:atmosphere",
+      "building:Prefab Hull",
+      "building:Concrete Hull",
+      "item:Hull",
+      "item:Concrete"
+    ]
+  },
+  {
+    "id": "partitions",
+    "group": "construction",
+    "title": "Walls, Doors, Windows & Vents",
+    "lead": "Partitions create interior spaces without extending the outer hull, while doors, windows and vents serve different purposes.",
+    "sections": [
+      {
+        "title": "Walls and passages",
+        "paragraphs": [
+          "[[building:Wall|Wall]] subdivides hull interior. [[building:Door|Door]] and [[building:Double Door|Double Door]] provide access between areas and can restrict individual colonists.",
+          "Both door sizes exchange air even when closed according to their wiki articles. Do not assume a closed door forms an airtight seal. Double Door is unlocked by [[tech:Infrastructure|Infrastructure]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Windows and vents",
+        "paragraphs": [
+          "[[building:Window|Window]] is a sealed wall-mounted visual fitting; the wiki says it does not grant an automatic colonist mood bonus.",
+          "[[building:Wall Vent|Wall Vent]] also lets air pass between rooms, but a vent is not automatically necessary beside every door because doors exchange air themselves."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Removing partitions",
+        "paragraphs": [
+          "A wall-mounted object can block removal of the wall supporting it. Clear attached objects when needed.",
+          "Use the [[station:priority|Building target filter]] for interior structures while excluding Hull and Wires. Recognised [[station:rooms|rooms]] also depend on permitted object categories."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:rooms",
+      "station:atmosphere",
+      "station:priority",
+      "building:Wall",
+      "building:Door",
+      "building:Double Door",
+      "building:Wall Vent",
+      "building:Window"
+    ]
+  },
+  {
+    "id": "materials",
+    "group": "orders",
+    "title": "Construction Jobs & Materials",
+    "lead": "A placed building becomes a job. Completion still requires materials, a permitted builder and access to the construction site.",
+    "sections": [
+      {
+        "title": "Reading supply availability",
+        "paragraphs": [
+          "The upper-right HUD distinguishes Total, Available, In Use and Needed. The Needed figure records resources requested by pending construction jobs; Available is stock not yet reserved.",
+          "A colonist must be allowed to perform Construction in [[colonist:priorities|Work Priorities]], and [[station:priority|world-task priority]] controls the urgency of the order."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "When building stops",
+        "paragraphs": [
+          "Check missing [[item:Iron Plate|Iron Plates]], [[item:Mechanical Parts|Mechanical Parts]], [[item:Electronic Parts|Electronic Parts]] or whatever the specific building requires. Confirm access and a suitable storage location.",
+          "Raising a task to emergency priority cannot supply missing materials or override a colonist's banned activity."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Building what matters first",
+        "paragraphs": [
+          "High priorities are useful for life-support installation and emergency [[station:hulls|hull repairs]]. Use [[station:priority|target filters]] when selecting Hull or Wires instead of regular structures."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:priority",
+      "station:inventory",
+      "station:storage",
+      "station:placement",
+      "colonist:priorities",
+      "item:Iron Plate",
+      "item:Mechanical Parts"
+    ]
+  },
+  {
+    "id": "mining",
+    "group": "orders",
+    "title": "Mining & Terrain Orders",
+    "lead": "Use the Mine command to extract terrain resources or clear ground for future work.",
+    "sections": [
+      {
+        "title": "Mine [G]",
+        "paragraphs": [
+          "The Mine tool (G) works on one tile or a drag-selected area. Documented materials include [[item:Regolith|Regolith]], [[item:Iron Ore|Iron Ore]], [[item:Copper Ore|Copper Ore]] and [[item:Ice|Ice]].",
+          "A priority may be selected before marking the mining area."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Hauling mined resources",
+        "paragraphs": [
+          "Mining produces resources that need moving. Outdoor [[building:Stockpile|Stockpiles]] are intended for bulk solids.",
+          "Use [[station:deconstruct|Cancel [C]]] to withdraw unfinished mining orders, rather than Deconstruct [X] for built objects."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Worker assignments and exposure",
+        "paragraphs": [
+          "A worker still needs Mining permission under [[colonist:priorities|Work Priorities]]. For remote tasks, account for [[colonist:outside|suit oxygen]], travel time and [[station:storms|dust storms]]."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:priority",
+      "station:deconstruct",
+      "station:storage",
+      "station:storms",
+      "building:Stockpile",
+      "item:Ice",
+      "colonist:outside"
+    ]
+  },
+  {
+    "id": "deconstruct",
+    "group": "orders",
+    "title": "Cancel, Deconstruct & Move",
+    "lead": "Removing pending orders is different from dismantling completed buildings. Moving objects is a third operation with its own restrictions.",
+    "sections": [
+      {
+        "title": "Bottom-right action tools",
+        "paragraphs": [],
+        "bullets": [
+          "Cancel [C] — cancel designated mining, construction or deconstruction assignments.",
+          "Deconstruct [X] — dismantle completed structures and recover materials where applicable.",
+          "Priority [P] — change urgency of selectable jobs or objects.",
+          "The object panel also offers applicable actions such as Deconstruct, Cancel and Priority."
+        ]
+      },
+      {
+        "title": "Multi-select [Shift + Click]",
+        "paragraphs": [
+          "Hold Shift to select multiple objects. The multi-selection window supports actions including Deconstruct, Move and shared compatible device controls.",
+          "Common controls such as Enable/Disable may be applied to selected compatible devices. Storage Permission commands are an exception."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Structural exceptions",
+        "paragraphs": [
+          "[[station:hulls|Hull]], [[building:Wall|Walls]] and [[building:Wire|Wires]] cannot be moved as furniture can; they must be deconstructed and rebuilt.",
+          "The game prevents removing hull tiles needed for pressure boundary, attached structures or worker access. Use the correct [[station:priority|Building / Hull / Wires filter]] before painting an action."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Deconstruction drops",
+        "paragraphs": [
+          "The Management wiki documents dropped objects retaining active cleanup priority after deconstruction or storage relocation, even if manually lowered. Treat this as an observed demo behaviour."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:priority",
+      "station:hulls",
+      "station:storage",
+      "building:Wall",
+      "building:Wire",
+      "colonist:priorities"
+    ]
+  },
+  {
+    "id": "priority",
+    "group": "orders",
+    "title": "Priority Tool & Target Filters",
+    "lead": "Priority [P] sets job urgency from 1 to 9. A separate target filter controls whether an area action applies to buildings, hull or wires.",
+    "sections": [
+      {
+        "title": "Priority scale",
+        "paragraphs": [],
+        "bullets": [
+          "1–4 — background jobs and lower-urgency work.",
+          "5 — default for new construction, objects and hauling.",
+          "6–8 — high priority for critical construction, maintenance or production.",
+          "9 — emergency work, such as finishing shelter walls or sealing a breach."
+        ]
+      },
+      {
+        "title": "Filters for area tools",
+        "paragraphs": [
+          "Target filters are available with area-based action tools, including Priority, Deconstruct and Cancel."
+        ],
+        "bullets": [
+          "All — every player-built object in the selected area.",
+          "Building (default) — interior machinery, walls, windows, lights, furniture and placed facilities; does NOT include structural Hull or Wires.",
+          "Hull — structural hull segments only.",
+          "Wires — electrical wire segments only."
+        ]
+      },
+      {
+        "title": "Why your Hull or Wires were ignored",
+        "paragraphs": [
+          "If raising priority over an area affects furniture but not the floor or cable, the Building filter may still be active. Select Hull or Wires explicitly, then issue the action.",
+          "Filters select targets; they do not override [[station:hulls|structural rules]] or supply missing [[station:materials|materials]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Priority on structures versus on colonists",
+        "paragraphs": [
+          "[[colonist:priorities|Work Priorities]] determine which people can build, haul or service. Priority [P] determines which specific eligible world errand should happen sooner. The systems complement rather than replace each other."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:deconstruct",
+      "station:materials",
+      "station:hulls",
+      "station:power",
+      "colonist:priorities",
+      "building:Wire"
+    ]
+  },
+  {
+    "id": "power",
+    "group": "systems",
+    "title": "Electricity, Wires & Batteries",
+    "lead": "Power producers, consumers and batteries form connected electrical grids. F4 visualises the links.",
+    "sections": [
+      {
+        "title": "Generators and storage",
+        "paragraphs": [
+          "Outdoor [[building:Solar Panel|Solar Panels]] provide early power. [[building:Small Battery|Small Batteries]] store surplus electricity for periods of insufficient production.",
+          "Further research introduces [[building:Wind Turbine|Wind Turbine]], [[building:Electrostatic Power Harvester|Electrostatic Power Harvester]] and [[building:Large Solar Panel|Large Solar Panel]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Laying Wires",
+        "paragraphs": [
+          "[[building:Wire|Wire]] costs [[item:Copper Wire|Copper Wire]] per segment, can run inside or outside, and can be dragged across multiple tiles. Selecting it automatically activates the [[station:overlays|F4 Power Components Overlay]].",
+          "Hovering a cable displays the network's current load and maximum capacity. F4 also shows connected sources, batteries and consumers."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Power loss and controls",
+        "paragraphs": [
+          "Unpowered machines may indicate a broken or incomplete connection, insufficient generation or empty storage. During [[station:storms|dust storms]], solar production stops and wind generation increases.",
+          "Disabled machines stop working, consuming power and wearing down according to the wiki. Use the [[station:priority|Wires filter]] when deconstructing only cables."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:overlays",
+      "station:storms",
+      "station:production",
+      "station:priority",
+      "building:Wire",
+      "building:Solar Panel",
+      "building:Small Battery",
+      "item:Copper Wire"
+    ]
+  },
+  {
+    "id": "atmosphere",
+    "group": "systems",
+    "title": "Atmosphere & Life Support",
+    "lead": "Pressure alone cannot keep colonists alive; enclosed rooms require adequate oxygen and sufficiently low CO2.",
+    "sections": [
+      {
+        "title": "Replacing the landing machine",
+        "paragraphs": [
+          "The prebuilt [[building:Life Support Machine|Life Support Machine]] initially supplies power, oxygen and CO2 removal, but degrades and eventually fails permanently.",
+          "[[building:Oxygen Diffuser|Oxygen Diffusers]] and [[building:CO2 Scrubber|CO2 Scrubbers]] provide independent control after [[tech:Oxygen Regulation|Oxygen Regulation]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Oxygen [F1]",
+        "paragraphs": [
+          "The wiki reports F1 colours from roughly 600 oxygen (turquoise) to 50 (red). Low levels cause difficulty breathing; prolonged deprivation may be fatal.",
+          "Oxygen Diffusers consume [[item:Water|Water]] and electricity; larger stations may need additional units as coverage becomes insufficient."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "CO2 [F2] and hazardous gases [F3]",
+        "paragraphs": [
+          "F2 shows CO2, with 0 ideal and around 30 dangerous. High CO2 causes headaches, dizziness and potentially unconsciousness.",
+          "F3 toxin monitoring and [[building:Air Purifier|Air Purifier]] are visible but hazardous-gas gameplay is not active in the current demo."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Doors and ventilation",
+        "paragraphs": [
+          "[[building:Door|Door]] and [[building:Double Door|Double Door]] exchange air even while closed, while [[building:Wall Vent|Wall Vent]] also allows gas flow between adjacent rooms. This does not prove that every separated area needs a vent."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:overlays",
+      "station:power",
+      "station:failures",
+      "station:partitions",
+      "colonist:atmosphere",
+      "building:Life Support Machine",
+      "building:Oxygen Diffuser",
+      "building:CO2 Scrubber"
+    ]
+  },
+  {
+    "id": "water",
+    "group": "systems",
+    "title": "Water, Waste & Plumbing",
+    "lead": "Water links oxygen production, crops and toilets. Storage and processing are vital as the base grows.",
+    "sections": [
+      {
+        "title": "Water production and treatment",
+        "paragraphs": [
+          "[[item:Ice|Ice]] mined outside can be processed at an [[building:Ice Processing Station|Ice Processing Station]] into [[item:Water|Water]].",
+          "[[building:Waste Processing Station|Waste Processing Station]] provides waste processing, while [[building:Liquid Storage|Liquid Storage]] is dedicated to fluids."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Main consumers and outputs",
+        "paragraphs": [
+          "[[building:Oxygen Diffuser|Oxygen Diffuser]] consumes water for oxygen production. [[building:Plant Rack|Plant Rack]], [[building:Plant Plot|Plant Plot]] and other crops need water.",
+          "[[building:Toilet|Toilet]] uses Water and produces [[item:Waste|Waste]]. Shortages may interfere with farming, hygiene and atmosphere management."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "F5 Plumbing Overlay",
+        "paragraphs": [
+          "The current demo wiki explicitly describes the F5 Plumbing Overlay as non-functional. Do not assume there is a completed visible pipe-network mechanic.",
+          "Inspect machines and [[station:inventory|resource quantities]] directly when diagnosing problems."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:overlays",
+      "station:atmosphere",
+      "station:storage",
+      "station:inventory",
+      "building:Ice Processing Station",
+      "building:Waste Processing Station",
+      "building:Toilet",
+      "item:Water",
+      "item:Waste"
+    ]
+  },
+  {
+    "id": "production",
+    "group": "systems",
+    "title": "Production & Machine Controls",
+    "lead": "Production machines support automated recipe rules and status controls.",
+    "sections": [
+      {
+        "title": "What a machine needs",
+        "paragraphs": [
+          "A facility may need material inputs, electrical power, storage space and an eligible operating colonist. [[colonist:priorities|Work Priorities]] decides who may operate or craft.",
+          "[[building:Crafting Table|Crafting Table]], [[building:Smelter|Smelter]], [[building:Assembly Station|Assembly Station]] and [[building:Meal Assembly Table|Meal Assembly Table]] serve different production chains."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Recipe modes",
+        "paragraphs": [],
+        "bullets": [
+          "Fixed quantity — run a set number of recipe batches.",
+          "If less than — automatically produce while the total stock is below a chosen target.",
+          "Continuous (∞) — keep producing while ingredients, electricity and other requirements permit."
+        ]
+      },
+      {
+        "title": "Machine status and disabling",
+        "paragraphs": [
+          "Station interfaces show operational conditions such as waiting for inputs, workers or output space. A disabled machine stops production, maintenance requirements and active power draw.",
+          "Place suitable [[station:storage|storage]] nearby to reduce hauling routes and keep chains supplied."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:storage",
+      "station:power",
+      "station:priority",
+      "colonist:priorities",
+      "building:Crafting Table",
+      "building:Smelter",
+      "building:Meal Assembly Table"
+    ]
+  },
+  {
+    "id": "storage",
+    "group": "systems",
+    "title": "Storage, Permissions & Hauling",
+    "lead": "Different storage units accept different resources; placement, permissions and priority affect logistics.",
+    "sections": [
+      {
+        "title": "Four storage categories",
+        "paragraphs": [],
+        "bullets": [
+          "[[building:Stockpile|Stockpile]] — outdoor bulk materials and raw solids.",
+          "[[building:Storage Container|Storage Container]] / [[building:Large Storage Container|Large Storage Container]] — indoor general items and components.",
+          "[[building:Liquid Storage|Liquid Storage]] — fluids and gases.",
+          "[[building:Coolbox|Coolbox]] — perishables and prepared food, cooled using [[item:Ice|Ice]]."
+        ]
+      },
+      {
+        "title": "Permissions",
+        "paragraphs": [
+          "The wiki states that Storage Containers and Stockpiles allow permission settings even before their construction has completed.",
+          "Allowed item categories can be copied between compatible containers. A high priority cannot override storage compatibility."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Priorities and worker routes",
+        "paragraphs": [
+          "High-priority containers actively attract eligible loose supplies. A storage unit close to a production station shortens hauling trips and reduces delays.",
+          "Dropped resources after storage relocation may retain active cleanup priority in the demo. See [[station:deconstruct|Deconstruction & Move]]."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:inventory",
+      "station:priority",
+      "station:production",
+      "station:deconstruct",
+      "building:Stockpile",
+      "building:Storage Container",
+      "building:Coolbox",
+      "building:Liquid Storage"
+    ]
+  },
+  {
+    "id": "rooms",
+    "group": "rooms",
+    "title": "Room Recognition & Functions",
+    "lead": "Rooms are automatically recognised enclosed zones with minimum size and required furniture categories.",
+    "sections": [
+      {
+        "title": "How to create a room",
+        "paragraphs": [
+          "Partition an enclosed [[station:hulls|hull]] using [[building:Wall|Walls]] and a suitable [[building:Door|Door]], then install the room's required object classes.",
+          "F7 [[station:overlays|Room Overlay]] colours recognised rooms and shows their requirements on hover."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Allowed categories matter",
+        "paragraphs": [
+          "A room needs its minimum floor-cell count, the required items and only categories that the room permits. Adding incompatible equipment can turn it back into an unclassified space.",
+          "See [[station:room-types|Room Types & Requirements]] for the full wiki specification."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "What currently has an effect",
+        "paragraphs": [
+          "The wiki describes rooms primarily as organisational in the demo. Bathrooms give privacy when using toilets, while Bedrooms and Barracks automatically dim lights during sleep.",
+          "Other room functions are not documented as active in the demo. [[building:Wall Vent|Wall Vents]] support airflow, but closed doors also exchange air."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:room-types",
+      "station:overlays",
+      "station:partitions",
+      "colonist:bladder",
+      "colonist:energy",
+      "building:Door",
+      "building:Toilet"
+    ]
+  },
+  {
+    "id": "room-types",
+    "group": "rooms",
+    "title": "Room Types & Requirements",
+    "lead": "The wiki describes ten room definitions; type recognition does not mean each has an active mechanical bonus in the demo.",
+    "sections": [
+      {
+        "title": "Living spaces",
+        "paragraphs": [],
+        "bullets": [
+          "Bedroom — minimum 8 cells, 1–2 Beds; allowed: Beds, Seating, Tables.",
+          "Barracks — minimum 12 cells, 1+ Bunk; allowed: Beds, Bunks, Seating, Tables.",
+          "Dining — minimum 8 cells, 1+ Seating and 1+ Table; allowed: Seating, Tables.",
+          "Recreation — minimum 8 cells, 1+ Seating and 1+ Entertainment; allowed: Seating, Tables, Entertainment.",
+          "Bathroom — minimum 4 cells, 1+ Bathroom-category object; allowed: Bathroom, Utility."
+        ]
+      },
+      {
+        "title": "Working rooms",
+        "paragraphs": [],
+        "bullets": [
+          "Greenhouse — minimum 8 cells, 1+ Growing; allowed: Growing, Utility.",
+          "Workshop — minimum 8 cells, 1+ Crafting; allowed: Seating, Tables, Crafting, Utility.",
+          "Lab — minimum 8 cells, 1+ Research; allowed: Seating, Tables, Research, Utility.",
+          "Medical — minimum 8 cells, 1+ Medical; allowed: Seating, Tables, Medical, Utility.",
+          "Kitchen — minimum 8 cells, 1+ Food Storage and 1+ Cooking; allowed: Seating, Tables, Cooking, Food Storage, Utility."
+        ]
+      },
+      {
+        "title": "Examples and checks",
+        "paragraphs": [
+          "[[building:Bed|Bed]] and [[building:Bunk Bed|Bunk Bed]] fit sleeping rooms, [[building:Toilet|Toilet]] supports Bathroom recognition, while [[building:Meal Assembly Table|Meal Assembly Table]] and [[building:Coolbox|Coolbox]] fit a Kitchen.",
+          "Use F7 to check the recognition state. Only limited room functions are active in the demo; do not expect a documented bonus for every listed type."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:rooms",
+      "station:overlays",
+      "building:Bed",
+      "building:Bunk Bed",
+      "building:Toilet",
+      "building:Meal Assembly Table",
+      "building:Coolbox",
+      "building:Basic Research Table"
+    ]
+  },
+  {
+    "id": "overlays",
+    "group": "diagnostics",
+    "title": "Diagnostic Overlays [F1–F7]",
+    "lead": "Use overlays to identify problems that are hard to see in the ordinary colony view.",
+    "sections": [
+      {
+        "title": "Atmosphere",
+        "paragraphs": [],
+        "bullets": [
+          "F1 — Oxygen: turquoise near 600, critical red near 50 in the wiki's demo reference.",
+          "F2 — CO2: ideal 0, hazardous around 30.",
+          "F3 — Hazardous Gases: the overlay exists (0 ideal, 20 hazardous), but the toxic-gas mechanic is not active in the demo."
+        ]
+      },
+      {
+        "title": "Station systems",
+        "paragraphs": [],
+        "bullets": [
+          "F4 — Power Components: electrical wires, generators, battery charge and consumers.",
+          "F5 — Plumbing: non-functional in the current demo.",
+          "F7 — Rooms: recognised categories, colour highlighting and requirements shown on hover."
+        ]
+      },
+      {
+        "title": "Practical use",
+        "paragraphs": [
+          "Use F1/F2 after [[station:hulls|expanding hull]], F4 when machines lack power, and F7 when a room does not classify as expected.",
+          "The Wire build tool automatically activates F4. The wiki does not give a confirmed F6 function, so none is invented."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:views",
+      "station:room-types",
+      "station:atmosphere",
+      "station:power",
+      "station:water",
+      "building:Wire"
+    ]
+  },
+  {
+    "id": "views",
+    "group": "diagnostics",
+    "title": "Station Viewing Modes",
+    "lead": "Viewing modes change the camera representation of the base, not the physical station.",
+    "sections": [
+      {
+        "title": "Four views",
+        "paragraphs": [],
+        "bullets": [
+          "Complete — display hull including ceilings.",
+          "Ceiling-Free — hide ceilings to inspect internal equipment.",
+          "Minimal Floor — display a reduced floor-grid view.",
+          "X-Ray — reveal colonists through walls."
+        ]
+      },
+      {
+        "title": "Why change view",
+        "paragraphs": [
+          "Ceiling-free and floor views help select interior [[building:Wall|Walls]], [[building:Wire|Wires]] and machines. X-Ray helps locate colonists.",
+          "For actual resource, gas, power and room diagnoses, use [[station:overlays|Overlays]] instead."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:overlays",
+      "station:partitions",
+      "station:hulls",
+      "building:Wall",
+      "building:Wire",
+      "colonist:crew"
+    ]
+  },
+  {
+    "id": "inventory",
+    "group": "diagnostics",
+    "title": "Resource HUD & Inventory States",
+    "lead": "A visible stock total is not necessarily available for new orders if some items are already reserved.",
+    "sections": [
+      {
+        "title": "Reading the top-right tooltip",
+        "paragraphs": [],
+        "bullets": [
+          "Total — all tracked units in the colony.",
+          "Available — stored stock free for building or production.",
+          "In Use — resources reserved or already assigned to jobs.",
+          "Needed — quantities required by pending construction orders."
+        ]
+      },
+      {
+        "title": "Troubleshooting a shortage",
+        "paragraphs": [
+          "If Total is higher than Available, look for resources reserved for other jobs. Compare Needed with the cost of the desired building.",
+          "Check [[station:storage|storage permissions]], [[station:production|producer supply]], worker hauling and [[station:priority|task queues]]. The same symptom can have several causes."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:materials",
+      "station:storage",
+      "station:production",
+      "station:priority",
+      "item:Iron Plate",
+      "item:Electronic Parts"
+    ]
+  },
+  {
+    "id": "failures",
+    "group": "safety",
+    "title": "Life Support Failure & Emergency Repairs",
+    "lead": "The starting Life Support Machine is temporary, forcing the colony to build independent oxygen, CO2 and power systems.",
+    "sections": [
+      {
+        "title": "First breakdown, around Sol 5",
+        "paragraphs": [
+          "The wiki documents an initial scripted failure and a repair choice, followed by a warning that the fix will not last.",
+          "Begin replacing the landing systems with [[building:Oxygen Diffuser|Oxygen Diffuser]], [[building:CO2 Scrubber|CO2 Scrubber]] and reliable [[station:power|power]]."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Permanent failure, end of Sol 14",
+        "paragraphs": [
+          "A second breakdown permanently disables the starting [[building:Life Support Machine|Life Support Machine]]. Its materials may be recovered by deconstructing it after the final failure.",
+          "Depend on your own infrastructure before that event."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Emergency diagnosis",
+        "paragraphs": [
+          "Check [[station:overlays|F1 Oxygen, F2 CO2 and F4 Power]] together. Loss of electricity can stop otherwise healthy atmosphere machines.",
+          "Set urgent construction or servicing to [[station:priority|high/emergency priority]], remembering that materials, eligible workers and access are still necessary."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:atmosphere",
+      "station:power",
+      "station:overlays",
+      "station:priority",
+      "building:Life Support Machine",
+      "building:Oxygen Diffuser",
+      "building:CO2 Scrubber"
+    ]
+  },
+  {
+    "id": "storms",
+    "group": "safety",
+    "title": "Dust Storms & Outdoor Safety",
+    "lead": "Storms affect the power balance, outdoor work and, in some cases, the ability to receive new colonists.",
+    "sections": [
+      {
+        "title": "Power during a storm",
+        "paragraphs": [
+          "[[building:Solar Panel|Solar Panels]] stop generating during storms; smaller units collect dust and require cleaning. [[building:Large Solar Panel|Large Solar Panels]] retract protective covers.",
+          "[[building:Wind Turbine|Wind Turbines]] double their output according to the wiki."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Outdoor jobs",
+        "paragraphs": [
+          "Colonists are automatically restricted from leaving the station in a dust storm. The player can override this using “Allow colonists to go outside”, but outdoor work incurs increasing mood penalties.",
+          "Factor in suit oxygen, [[colonist:outside|travel time]] and urgent return access before authorising emergency tasks."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Events and deliveries",
+        "paragraphs": [
+          "Storm warnings show a countdown and duration in the HUD. The wiki lists meteor strikes and cold waves only as planned future events.",
+          "An active storm prevents accepting a new crew drop pod; the [[building:Supply Rocket Pad|Supply Rocket Pad]] is also required for recruitment."
+        ],
+        "bullets": []
+      }
+    ],
+    "related": [
+      "station:power",
+      "station:placement",
+      "station:mining",
+      "colonist:outside",
+      "building:Solar Panel",
+      "building:Large Solar Panel",
+      "building:Wind Turbine",
+      "building:Supply Rocket Pad"
+    ]
+  }
+];
