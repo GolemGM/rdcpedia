@@ -10,11 +10,15 @@ const byName=new Map(all.map(e=>[normalize(e.title),e]));
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const img=e=>e.image.replace(/^\//,'');
 let state={view:'home',tab:'Buildings',category:'All',id:null};
-let visits=[{...state}],position=0,search='';
-function goto(s,remember=true){state={...s};if(remember){visits=visits.slice(0,position+1);visits.push({...state});position=visits.length-1;}search='';$('search').value='';render();}
+let visits=[{...state}],position=0;
+let suggestions=[],selectedSuggestion=0;
+function goto(s,remember=true){state={...s};if(remember){visits=visits.slice(0,position+1);visits.push({...state});position=visits.length-1;}clearSearch();render();}
 function categoryView(tab,cat='All'){goto({view:'category',tab,category:cat,id:null});}
 function detail(e){goto({view:'detail',tab:e.kind,category:e.category,id:e.id});}
-function resultList(){return all.filter(e=>(state.tab===e.kind||!!search)&&(!search||normalize(e.title).includes(normalize(search))));}
+function clearSearch(){suggestions=[];selectedSuggestion=0;$('search').value='';$('search-suggest').hidden=true;$('search-suggest').innerHTML='';}
+function searchMatches(q){const term=normalize(q);if(!term)return [];return all.filter(e=>normalize(e.title).includes(term)).sort((a,b)=>{const aStart=normalize(a.title).startsWith(term)?0:1,bStart=normalize(b.title).startsWith(term)?0:1;return aStart-bStart||a.title.localeCompare(b.title);}).slice(0,8);}
+function showSuggestions(){const box=$('search-suggest');suggestions=searchMatches($('search').value);selectedSuggestion=0;box.innerHTML=suggestions.map((e,i)=>`<button type="button" role="option" aria-selected="${i===0}" data-search-id="${escape(e.id)}"><span>${escape(e.title)}</span><small>${escape(e.kind)}</small></button>`).join('');box.hidden=!suggestions.length;}
+function selectSuggestion(index){const e=suggestions[index];if(e)detail(e);else clearSearch();}
 function linkText(str){let s=escape(str);s=s.replace(/\{\{1\|([^|}]+)(?:\|([^}]+))?\}\}/g,(_,a,b)=>'<a class="wiki-link" data-link="'+escape(a)+'">'+escape(b||a)+'</a>');s=s.replace(/\[\[([^|\]#]+)(?:#[^|\]]*)?(?:\|([^\]]+))?\]\]/g,(_,a,b)=>'<a class="wiki-link" data-link="'+escape(a)+'">'+escape(b||a)+'</a>');s=s.replace(/'''([^']+?)'''/g,'<strong>$1</strong>').replace(/''([^']+?)''/g,'<em>$1</em>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');s=s.replace(/&lt;br\s*\/?&gt;/gi,'<br>');return s;}
 function toHtml(raw){const lines=String(raw||'').split('\n');let out='',list=false;
  const close=()=>{if(list){out+='</ul>';list=false;}};
@@ -32,8 +36,8 @@ const set=available.filter(x=>state.category==='All'||x.category===state.categor
 m.innerHTML='<div id="chooser" class="quick"><div class="quick-row"><button title="Previous item" data-quick="prev">‹</button>'+[before,current,after].map(e=>e?`<button class="quick-entry ${e.id===state.id?'selected':''}" data-id="${e.id}" title="${escape(e.title)}"><img src="${img(e)}" alt=""><small>${escape(e.title)}</small></button>`:'').join('')+'<button title="Next item" data-quick="next">›</button></div><button class="all-items" data-showall="yes">All '+escape(state.category==='All'?state.tab:state.category)+' ↗</button></div><div class="panel-title toc-title">CONTENTS</div><div id="toc">'+(current?.sections||[]).map((x,i)=>`<button data-section="s${i}">${escape(x.heading)}</button>`).join('')+'</div>';
 }
 function categoryIcon(c,i){let s=c.toLowerCase();if(c==='All')return '▤';if(/food|cook|grow/.test(s))return '♧';if(/power|elect/.test(s))return 'ϟ';if(/industry|craft/.test(s))return '⚒';if(/base|hull/.test(s))return '▦';if(/comfort|furniture/.test(s))return '♜';if(/plumb|liquid|gas/.test(s))return '◉';if(/medical/.test(s))return '✚';return ['▣','◇','▧','⚙','◈'][i%5];}
-function renderOverview(){let title=state.tab;let scope=all.filter(e=>e.kind===title);let subset=scope.filter(e=>state.category==='All'||e.category===state.category);if(search){subset=all.filter(e=>normalize(e.title).includes(normalize(search)));title='Search Results';}
-$('article').innerHTML=`<div class="overview"><h1>${escape(title)}${state.category!=='All'&&!search?' · '+escape(state.category):''}</h1><p class="intro">${search?'Search results across the encyclopedia.':'Choose a category on the left, then select a page below.'}</p><div class="result-grid">${subset.sort((a,b)=>a.title.localeCompare(b.title)).map(e=>`<button class="result" data-id="${e.id}"><img src="${img(e)}" alt=""><span>${escape(e.title)}</span></button>`).join('')||'<p>No matching pages.</p>'}</div></div>`;
+function renderOverview(){let title=state.tab;let scope=all.filter(e=>e.kind===title);let subset=scope.filter(e=>state.category==='All'||e.category===state.category);
+$('article').innerHTML=`<div class="overview"><h1>${escape(title)}${state.category!=='All'?' · '+escape(state.category):''}</h1><p class="intro">Choose a category on the left, then select a page below.</p><div class="result-grid">${subset.sort((a,b)=>a.title.localeCompare(b.title)).map(e=>`<button class="result" data-id="${e.id}"><img src="${img(e)}" alt=""><span>${escape(e.title)}</span></button>`).join('')||'<p>No matching pages.</p>'}</div></div>`;
 $('related').innerHTML='';$('related').classList.add('hidden-panel');}
 function renderHome(){$('article').innerHTML=`<div class="welcome"><div class="welcome-mark">RDC</div><h1>RED DUST COLONY</h1><h2>ENCYCLOPEDIA</h2><p>A field reference for buildings, items, research, colonists and the systems keeping your Martian settlement alive.</p><div class="home-options"><button data-home="Buildings"><b>▣</b> Explore Buildings <span>64 records</span></button><button data-home="Items"><b>◇</b> Explore Items <span>43 records</span></button><button data-home="Guidebook"><b>▤</b> Guidebook <span>Coming next</span></button></div><small>RDCpedia demo · Source data: Red Dust Colony Wiki</small></div>`;$('related').innerHTML='';$('related').classList.add('hidden-panel');}
 function renderDetail(){const e=byId.get(state.id);if(!e){renderOverview();return;}const props=Object.entries(e.meta||{}).filter(([k,v])=>v&& !['title','image','imagecaption'].includes(k));const sections=(e.sections||[]).map((s,i)=>`<section id="s${i}"><h2>${escape(s.heading)}</h2>${toHtml(s.raw)}</section>`).join('');$('article').innerHTML=`<div class="detail"><h1>${escape(e.title)}</h1><div class="detail-head"><div class="item-art"><img src="${img(e)}" alt="${escape(e.title)}"></div><div class="properties">${props.map(([k,v])=>`<div><b>${escape(k.replace(/_/g,' '))}</b><span>${linkText(v)}</span></div>`).join('')}</div></div><div class="article-body">${sections}</div></div>`;
@@ -46,9 +50,16 @@ $('pedia').addEventListener('click',clickEvent);
 $('brand').onclick=()=>goto({view:'home',tab:'Buildings',category:'All',id:null});
 $('open-button').onclick=()=>{$('overlay').classList.remove('hidden');render();};
 $('close').onclick=()=>{$('overlay').classList.add('hidden');};
-$('back').onclick=()=>{if(position>0){position--;state={...visits[position]};search='';$('search').value='';render();}};
-$('forward').onclick=()=>{if(position<visits.length-1){position++;state={...visits[position]};search='';$('search').value='';render();}};
-$('search').oninput=e=>{search=e.target.value.trim();if(search){state={view:'category',tab:state.tab,category:'All',id:null};}render();};
+$('back').onclick=()=>{if(position>0){position--;state={...visits[position]};clearSearch();render();}};
+$('forward').onclick=()=>{if(position<visits.length-1){position++;state={...visits[position]};clearSearch();render();}};
+$('search').addEventListener('input',showSuggestions);
+$('search').addEventListener('keydown',e=>{
+ if(e.key==='Escape'){clearSearch();e.stopPropagation();return;}
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){if(!suggestions.length)return;e.preventDefault();selectedSuggestion=(selectedSuggestion+(e.key==='ArrowDown'?1:-1)+suggestions.length)%suggestions.length;$('search-suggest').querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-selected',String(i===selectedSuggestion)));$('search-suggest').querySelectorAll('button')[selectedSuggestion]?.scrollIntoView({block:'nearest'});return;}
+ if(e.key==='Enter'){e.preventDefault();selectSuggestion(selectedSuggestion);}
+});
+$('search-suggest').addEventListener('click',e=>{const b=e.target.closest('[data-search-id]');if(!b)return;const found=byId.get(b.dataset.searchId);if(found)detail(found);});
+document.addEventListener('click',e=>{if(!e.target.closest('#search-area'))$('search-suggest').hidden=true;});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').classList.contains('hidden'))$('overlay').classList.add('hidden');});
 render();
 })();
