@@ -73,3 +73,9 @@ button.tech-unlock:hover{background:#566970}
 .tech-unlock img{display:block;width:80px;height:72px;max-width:100%;object-fit:contain}
 .tech-unlock span{display:block;font-size:10px;line-height:1.25}
 @media(max-width:650px){.tech-unlock{width:92px;min-height:96px}.tech-unlock img{width:65px;height:57px}}
+
+/* v0.5.2 research introduction: inline article links. */
+.tech-intro p{max-width:850px;font-size:13px;line-height:1.7;margin:10px 0 15px}
+.tech-intro h2{margin-top:22px}
+.tech-inline-link{display:inline;padding:0;border:0;background:transparent;color:#d6b59a;text-decoration:underline;font-size:inherit;cursor:pointer}
+.tech-inline-link:hover{color:#f0d5bf}
