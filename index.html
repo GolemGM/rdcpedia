@@ -1,6 +1,22 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RDCpedia — Red Dust Colony Encyclopedia</title><link rel="stylesheet" href="style.css"></head>
 <body>
-<div id="stage"><div id="game" aria-label="Red Dust Colony paused gameplay"><img src="assets/game-background.png" alt="Red Dust Colony — paused game"><button id="open-button" title="Open RDCpedia">Encyclopedia</button></div></div>
+<div id="stage"><div id="game" aria-label="Red Dust Colony paused gameplay">
+  <img src="assets/game-scene.jpg" alt="Red Dust Colony — in-game colony scene">
+  <div id="pause-dim" aria-hidden="true"></div>
+  <section id="pause-menu" aria-label="Game pause menu">
+    <div class="pause-heading"><span>Menu</span><span class="pause-cross" aria-hidden="true">×</span></div>
+    <div class="pause-actions">
+      <button id="open-button" type="button" title="Open RDCpedia">◇ Encyclopedia</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Resume</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Save</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Save As</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Load</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Options</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Main Menu</button>
+      <button class="pause-inactive" type="button" aria-disabled="true" tabindex="-1">Quit to desktop</button>
+    </div>
+  </section>
+</div></div>
 <div id="overlay" class="hidden"><div id="pedia" role="dialog" aria-modal="true" aria-label="RDCpedia Encyclopedia"><header class="top"><button id="brand" title="Encyclopedia home"><span class="bookmark">▣</span><span>ENCYCLOPEDIA</span></button><span class="header-demo">RDCpedia · DEMO</span><button id="close" aria-label="Close encyclopedia">×</button></header><nav id="tabs" aria-label="Main sections"></nav><div id="toolbar"><button id="back" title="Previous visited page">‹</button><button id="forward" title="Next visited page">›</button><div id="crumb"></div><input id="search" type="search" placeholder="Search buildings and items…" aria-label="Search encyclopedia"></div><div id="workspace"><div id="categories" class="panel"></div><div id="middle" class="panel"><div id="chooser"></div><div id="toc"></div></div><main id="article" class="panel"></main><aside id="related" class="panel"></aside></div></div></div>
 <script src="data.js"></script><script src="app.js"></script></body></html>
