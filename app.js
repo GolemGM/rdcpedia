@@ -392,7 +392,7 @@ function renderControlsHome(){
  const groups=CONTROL_GROUPS.map(g=>'<section class="controls-home-group"><h2>'+escape(g.icon)+' '+escape(g.title)+'</h2><div class="controls-home-links">'
  +CONTROLS.filter(t=>t.group===g.id).map(t=>'<button data-control="'+escape(t.id)+'">'+escape(t.title)+'<span>›</span></button>').join('')+'</div></section>').join('');
  $('article').innerHTML='<div class="colonist-article controls-article">'
- +'<p class="col-eyebrow">INTERFACE & SHORTCUTS</p><h1>Controls</h1>'
+ +'<p class="col-eyebrow">INTERFACE &amp; SHORTCUTS</p><h1>Controls</h1>'
  +'<p class="col-lead">Find the right button, shortcut or management panel. Controls explains where to click and what the interface action does; Guidebook walks you through complete colony tasks.</p>'
  +'<h2>Quick shortcuts</h2>'+controlQuickKeys()
  +'<h2>Easy to overlook</h2><div class="controls-hot-grid">'+hot.map(t=>'<button class="controls-hot-card" data-control="'+escape(t.id)+'"><small>'+escape(t.flag)+'</small><strong>'+escape(t.title)+'</strong><span>'+escape(t.desc)+'</span><b>See control →</b></button>').join('')+'</div>'
@@ -411,7 +411,7 @@ function renderControlTopic(){
  $('article').innerHTML='<div class="colonist-article controls-article"><p class="col-eyebrow">'+escape(group?.title||'Controls')+'</p><h1>'+escape(t.title)+'</h1>'
  +'<p class="col-lead">'+escape(t.summary)+'</p>'
  +'<div class="controls-location"><span>WHERE TO FIND IT</span><strong>'+escape(t.where)+'</strong></div>'
- +'<section class="controls-actions"><h2>Buttons & actions</h2>'+rows+'</section>'
+ +'<section class="controls-actions"><h2>Buttons &amp; actions</h2>'+rows+'</section>'
  +'<section class="controls-note '+(t.important?'controls-note-important':'')+'"><h2>'+(t.important?'Easy to miss':'Important to know')+'</h2><p>'+escape(t.tip)+'</p></section>'
  +(t.sourceNote?'<p class="controls-verification"><strong>Pending verification:</strong> '+escape(t.sourceNote)+'</p>':'')
  +'<section class="fg-section"><h2>Practical guides</h2>'+guideList+'</section>'
