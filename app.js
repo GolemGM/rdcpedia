@@ -350,7 +350,7 @@ function fgVisual(refs,guideId){
   return e&&e.kind===(kind==='building'?'Buildings':'Items')
    ?'<button class="fg-visual-item" data-id="'+escape(e.id)+'" title="'+escape(e.title)+'"><img src="'+img(e)+'" alt="" loading="lazy"><span>'+escape(e.title)+'</span></button>':'';
  }).filter(Boolean);
- return imgs.length?'<div class="fg-visual"><div class="fg-visual-caption">'+(isChain?'EXAMPLE CHAIN / CONNECTION':'RELEVANT EQUIPMENT & MATERIALS')+'</div><div class="fg-visual-scroll">'+imgs.join(isChain?'<span class="fg-visual-arrow" aria-hidden="true">→</span>':'<span class="fg-visual-dot" aria-hidden="true">·</span>')+'</div></div>':'';
+ return imgs.length?'<div class="fg-visual"><div class="fg-visual-caption">'+(isChain?'EXAMPLE CHAIN / CONNECTION':'RELEVANT EQUIPMENT &amp; MATERIALS')+'</div><div class="fg-visual-scroll">'+imgs.join(isChain?'<span class="fg-visual-arrow" aria-hidden="true">→</span>':'<span class="fg-visual-dot" aria-hidden="true">·</span>')+'</div></div>':'';
 }
 function renderGuide(){
  const g=guideById.get(state.id);if(!g){renderGuidebookHome();return;}
