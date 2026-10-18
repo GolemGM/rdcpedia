@@ -13,6 +13,9 @@ const techGroups=['Start','Food','Liquids','Gas','Industry','Power','Base','Life
 const normalize=s=>String(s||'').replace(/\s+/g,' ').trim().toLowerCase();
 const byName=new Map(all.map(e=>[normalize(e.title),e]));
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Link tokens are captured *after* the surrounding article has been escaped.
+// Decode them only for internal lookups; labels and data-* attributes are already HTML-safe.
+const decodeEscapedLinkToken=s=>String(s).replace(/&(amp|lt|gt|quot|#39);/g,(_,entity)=>({amp:'&',lt:'<',gt:'>',quot:'"','#39':"'"}[entity]));
 const img=e=>e.image.replace(/^\//,'');
 let state={view:'home',tab:'Buildings',category:'All',id:null};
 let visits=[{...state}],position=0;
@@ -28,7 +31,7 @@ function clearSearch(){suggestions=[];selectedSuggestion=0;$('search').value='';
 function searchMatches(q){const term=normalize(q);if(!term)return [];return all.filter(e=>normalize(e.title).includes(term)).sort((a,b)=>{const aStart=normalize(a.title).startsWith(term)?0:1,bStart=normalize(b.title).startsWith(term)?0:1;return aStart-bStart||a.title.localeCompare(b.title);}).slice(0,8);}
 function showSuggestions(){const box=$('search-suggest');suggestions=searchMatches($('search').value);selectedSuggestion=0;box.innerHTML=suggestions.map((e,i)=>`<button type="button" role="option" aria-selected="${i===0}" data-search-id="${escape(e.id)}"><span>${escape(e.title)}</span><small>${escape(e.kind)}</small></button>`).join('');box.hidden=!suggestions.length;}
 function selectSuggestion(index){const e=suggestions[index];if(e)detail(e);else clearSearch();}
-function linkText(str){let s=escape(str);s=s.replace(/\{\{1\|([^|}]+)(?:\|([^}]+))?\}\}/g,(_,a,b)=>'<a class="wiki-link" data-link="'+escape(a)+'">'+escape(b||a)+'</a>');s=s.replace(/\[\[([^|\]#]+)(?:#[^|\]]*)?(?:\|([^\]]+))?\]\]/g,(_,a,b)=>'<a class="wiki-link" data-link="'+escape(a)+'">'+escape(b||a)+'</a>');s=s.replace(/'''([^']+?)'''/g,'<strong>$1</strong>').replace(/''([^']+?)''/g,'<em>$1</em>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');s=s.replace(/&lt;br\s*\/?&gt;/gi,'<br>');return s;}
+function linkText(str){let s=escape(str);s=s.replace(/\{\{1\|([^|}]+)(?:\|([^}]+))?\}\}/g,(_,a,b)=>'<a class="wiki-link" data-link="'+a+'">'+(b||a)+'</a>');s=s.replace(/\[\[([^|\]#]+)(?:#[^|\]]*)?(?:\|([^\]]+))?\]\]/g,(_,a,b)=>'<a class="wiki-link" data-link="'+a+'">'+(b||a)+'</a>');s=s.replace(/'''([^']+?)'''/g,'<strong>$1</strong>').replace(/''([^']+?)''/g,'<em>$1</em>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');s=s.replace(/&lt;br\s*\/?&gt;/gi,'<br>');return s;}
 function toHtml(raw){const lines=String(raw||'').split('\n');let out='',list=false;
  const close=()=>{if(list){out+='</ul>';list=false;}};
  for(let i=0;i<lines.length;i++){let s=lines[i].trim();if(!s)continue;
@@ -91,15 +94,15 @@ function renderTechnologyHome(){const researchTable=byName.get(normalize('Basic 
    invented slug. Unavailable future sections remain visibly non-clickable. */
 function colonistText(value){
  return escape(value).replace(/\[\[(topic|building|item|tech|tab):([^\]|]+)(?:\|([^\]]+))?\]\]/g,(_match,kind,key,label)=>{
-  const title=label||key, safe=escape(title);
-  if(kind==='topic'){return colonistById.has(key)?'<button class="col-inline" data-col-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;}
+  const safe=label||key, lookupKey=decodeEscapedLinkToken(key);
+  if(kind==='topic'){return colonistById.has(lookupKey)?'<button class="col-inline" data-col-topic="'+key+'">'+safe+' ↗</button>':safe;}
   if(kind==='building'||kind==='item'){
-    const found=byName.get(normalize(key));return found&&found.kind===(kind==='building'?'Buildings':'Items')
+    const found=byName.get(normalize(lookupKey));return found&&found.kind===(kind==='building'?'Buildings':'Items')
       ?'<button class="col-inline" data-id="'+escape(found.id)+'">'+safe+' ↗</button>':safe;
   }
-  if(kind==='tech')return techByName.has(key)?'<button class="col-inline" data-tech="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='tab')return ['Buildings','Items','Technology','Colonists'].includes(key)
-    ?'<button class="col-inline" data-tab="'+escape(key)+'">'+safe+' ↗</button>'
+  if(kind==='tech')return techByName.has(lookupKey)?'<button class="col-inline" data-tech="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='tab')return ['Buildings','Items','Technology','Colonists'].includes(lookupKey)
+    ?'<button class="col-inline" data-tab="'+key+'">'+safe+' ↗</button>'
     :'<span class="col-unavailable" title="This encyclopedia section is not yet available">'+safe+'</span>';
   return safe;
  });
@@ -152,16 +155,16 @@ function renderColonistTopic(){
 /* Station is kept independent of existing Building/Item/Technology/Colonist records. */
 function stationText(value){
  return escape(value).replace(/\[\[(station|colonist|building|item|tech|tab):([^\]|]+)(?:\|([^\]]+))?\]\]/g,(_match,kind,key,label)=>{
-  const safe=escape(label||key);
-  if(kind==='station')return stationById.has(key)?'<button class="col-inline" data-st-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='colonist')return colonistById.has(key)?'<button class="col-inline" data-col-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  const safe=label||key, lookupKey=decodeEscapedLinkToken(key);
+  if(kind==='station')return stationById.has(lookupKey)?'<button class="col-inline" data-st-topic="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='colonist')return colonistById.has(lookupKey)?'<button class="col-inline" data-col-topic="'+key+'">'+safe+' ↗</button>':safe;
   if(kind==='building'||kind==='item'){
-   const e=byName.get(normalize(key));
+   const e=byName.get(normalize(lookupKey));
    return e&&e.kind===(kind==='building'?'Buildings':'Items')?'<button class="col-inline" data-id="'+escape(e.id)+'">'+safe+' ↗</button>':safe;
   }
-  if(kind==='tech')return techByName.has(key)?'<button class="col-inline" data-tech="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='tab')return ['Buildings','Items','Technology','Colonists','Station'].includes(key)
-   ?'<button class="col-inline" data-tab="'+escape(key)+'">'+safe+' ↗</button>'
+  if(kind==='tech')return techByName.has(lookupKey)?'<button class="col-inline" data-tech="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='tab')return ['Buildings','Items','Technology','Colonists','Station'].includes(lookupKey)
+   ?'<button class="col-inline" data-tab="'+key+'">'+safe+' ↗</button>'
    :'<span class="col-unavailable" title="Section not yet available">'+safe+'</span>';
   return safe;
  });
@@ -213,17 +216,17 @@ function renderStationTopic(){
    Verified demo descriptions remain distinct from player observations. */
 function environmentText(value){
  let html=escape(value).replace(/\[\[(environment|station|colonist|building|item|tech|tab):([^\]|]+)(?:\|([^\]]+))?\]\]/g,(_match,kind,key,label)=>{
-  const safe=escape(label||key);
-  if(kind==='environment')return environmentById.has(key)?'<button class="col-inline" data-env-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='station')return stationById.has(key)?'<button class="col-inline" data-st-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='colonist')return colonistById.has(key)?'<button class="col-inline" data-col-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  const safe=label||key, lookupKey=decodeEscapedLinkToken(key);
+  if(kind==='environment')return environmentById.has(lookupKey)?'<button class="col-inline" data-env-topic="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='station')return stationById.has(lookupKey)?'<button class="col-inline" data-st-topic="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='colonist')return colonistById.has(lookupKey)?'<button class="col-inline" data-col-topic="'+key+'">'+safe+' ↗</button>':safe;
   if(kind==='building'||kind==='item'){
-   const e=byName.get(normalize(key));
+   const e=byName.get(normalize(lookupKey));
    return e&&e.kind===(kind==='building'?'Buildings':'Items')?'<button class="col-inline" data-id="'+escape(e.id)+'">'+safe+' ↗</button>':safe;
   }
-  if(kind==='tech')return techByName.has(key)?'<button class="col-inline" data-tech="'+escape(key)+'">'+safe+' ↗</button>':safe;
-  if(kind==='tab')return ['Buildings','Items','Technology','Colonists','Station','Environment'].includes(key)
-   ?'<button class="col-inline" data-tab="'+escape(key)+'">'+safe+' ↗</button>'
+  if(kind==='tech')return techByName.has(lookupKey)?'<button class="col-inline" data-tech="'+key+'">'+safe+' ↗</button>':safe;
+  if(kind==='tab')return ['Buildings','Items','Technology','Colonists','Station','Environment'].includes(lookupKey)
+   ?'<button class="col-inline" data-tab="'+key+'">'+safe+' ↗</button>'
    :'<span class="col-unavailable" title="Section not yet available">'+safe+'</span>';
   return safe;
  });
