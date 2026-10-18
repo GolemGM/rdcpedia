@@ -342,13 +342,15 @@ function renderGuidebookHome(){
  +fgGroupIndex(GUIDE_GROUPS,GUIDES,'guide')+'</div>';
  $('related').innerHTML='';$('related').classList.add('hidden-panel');
 }
-function fgVisual(refs){
+function fgVisual(refs,guideId){
+ const chainIds=new Set(['G07','G09','G11','G12','G13','G15','G16','G21']);
+ const isChain=chainIds.has(guideId);
  const imgs=(refs||[]).map(token=>{const n=token.indexOf(':'),kind=token.slice(0,n),key=token.slice(n+1);
   const e=byName.get(normalize(key));
   return e&&e.kind===(kind==='building'?'Buildings':'Items')
    ?'<button class="fg-visual-item" data-id="'+escape(e.id)+'" title="'+escape(e.title)+'"><img src="'+img(e)+'" alt="" loading="lazy"><span>'+escape(e.title)+'</span></button>':'';
  }).filter(Boolean);
- return imgs.length?'<div class="fg-visual"><div class="fg-visual-caption">EXAMPLE CHAIN / RELEVANT EQUIPMENT</div><div class="fg-visual-scroll">'+imgs.join('<span class="fg-visual-arrow" aria-hidden="true">→</span>')+'</div></div>':'';
+ return imgs.length?'<div class="fg-visual"><div class="fg-visual-caption">'+(isChain?'EXAMPLE CHAIN / CONNECTION':'RELEVANT EQUIPMENT & MATERIALS')+'</div><div class="fg-visual-scroll">'+imgs.join(isChain?'<span class="fg-visual-arrow" aria-hidden="true">→</span>':'<span class="fg-visual-dot" aria-hidden="true">·</span>')+'</div></div>':'';
 }
 function renderGuide(){
  const g=guideById.get(state.id);if(!g){renderGuidebookHome();return;}
@@ -357,7 +359,7 @@ function renderGuide(){
  const featureLinks=matching.length?'<section class="fg-section"><h2>Related game mechanics</h2><div class="fg-feature-links">'
   +matching.map(f=>'<button data-feature="'+escape(f.id)+'">'+escape(f.title)+' <span>↗</span></button>').join('')+'</div></section>':'';
  $('article').innerHTML='<div class="colonist-article fg-article fg-guide"><p class="col-eyebrow">'+escape(group?.title||'Guidebook')+' · '+escape(g.id)+'</p>'
- +'<h1>'+escape(g.title)+'</h1><p class="col-lead">'+escape(g.goal)+'</p>'+fgVisual(g.visual)
+ +'<h1>'+escape(g.title)+'</h1><p class="col-lead">'+escape(g.goal)+'</p>'+fgVisual(g.visual,g.id)
  +'<section class="fg-section"><h2>Before you begin</h2><p>'+escape(g.requirements)+'</p></section>'
  +'<section class="fg-section"><h2>Step by step</h2>'+steps+'</section>'
  +'<section class="fg-section fg-success"><h2>How to verify success</h2><p>'+escape(g.success)+'</p></section>'
