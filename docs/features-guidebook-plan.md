@@ -125,6 +125,59 @@ The 14 existing tutorial entries provide the naming and first-wave visual refere
 | F54 | Unimplemented room bonuses, future weather events, advanced medication | none |
 | F55 | Berserk attack/flee reactions — player observation, details unverified | G43 (verify) |
 
+## Controls reference inventory (not additional Guidebook pages)
+
+All entries below are inputs or interface affordances, not separate Features. Use as a compact Controls index with short explanations and direct links to relevant guides.
+
+| Control / interface | Source-backed behaviour | Related guide |
+|---|---|---|
+| WASD / hold RMB | Move (pan) the camera | G01 |
+| Mouse Wheel | Zoom camera | G01 |
+| Q / E / hold MMB | Rotate camera | G01 |
+| Space | Toggle pause/play | G02 |
+| 1 / 2 / 3, Tab | Speed selection/cycling per wiki and Tutorial Hub; displayed multipliers need consistency check | G02 |
+| G | Mine tool, single tile or drag area | G08 |
+| C | Cancel queued order | G09 |
+| X | Deconstruct built object(s) | G10 |
+| P | Errand Priority tool (1–9) | G11 |
+| All / Building / Hull / Wires | Area tool target filters (not a separate hotkey) | G11 |
+| Shift + Click | Multi-select objects for shared commands where supported | G10 |
+| F1 / F2 / F3 | O2 / CO2 / hazardous-gas overlays; F3 mechanic inactive | G18 |
+| F4 | Power Components overlay | G14, G16 |
+| F5 | Plumbing overlay; not functional in current demo | — |
+| F7 | Room recognition overlay | G40 |
+| View buttons | Complete / ceiling-free / minimal floor / X-ray | G07 |
+| Top-left HUD | Day, clock, time controls, roster, alerts, management panels | G02, G13 |
+| Top-right HUD | Inventory quantities, diagnostic overlay toolbar and system shortcuts | G13, G16 |
+| Bottom-left HUD | Build menu and categories | G05, G06 |
+| Bottom-right HUD | Mining, cancel, deconstruct, priority tools | G08–G11 |
+| ESC | Game menu / save-load/settings or closing supported dialogs; details are context-specific | Controls |
+
+## Presentation: do **not** make 55 + 53 new encyclopedia pages
+
+**Feature catalogue entries are indexable mechanics, not all full-length articles.** A Feature can be a compact reference card with a 1–3 paragraph explanation and a link to the existing Station, Colonists or Environment article. Several closely related features may share one reference page.
+
+**53 Guide IDs represent potential answers to 53 player questions, not 53 separate pages.** Prefer roughly a dozen cohesive guides with internal sections and direct links to the relevant steps. Suggested bundles:
+
+| Guidebook guide / series | Proposed scope (guide IDs) |
+|---|---|
+| First minutes on Mars | G03, G04, G05, G13 |
+| Construct and rearrange your station | G05, G06, G07, G09, G10, G11, G12, G40 |
+| Reliable electricity | G14, G15, G16 |
+| Replace starting life support | G17, G18, G19 |
+| Mine and turn ore into materials | G08, G24, G25, G26, G27 |
+| Storage, hauling and production automation | G20, G21, G22, G23 |
+| Growing food and botanical projects | G28, G29, G30, G31, G32 |
+| Cooking and nutrition | G33, G34, G35, G39 |
+| Comfortable, functional colonists | G37, G38, G41, G42, G43, G44, G46 |
+| Research and unlock progression | G45 |
+| Storm and colony-crisis response | G47, G48, G51 |
+| Supplies, recruitment, death and demo milestone | G49, G50, G52, G53 |
+
+G01/G02 and reference lookups naturally remain under **Controls**, with links from the related Guidebook bundles. Most difficult tasks can also be reached directly by a "How do I...?" search and specific existing article links.
+
+**Example user flow:** Player opens *Wire* → short feature description and "Power Grid" link → guide "Why is this machine not powered?" → F4 / generator / cable / battery checklist → success criteria. This avoids forcing a player to navigate the entire Feature taxonomy.
+
 ## Goal-oriented Guidebook backlog (53 candidate guides)
 
 These are **proposed tutorial tasks**. The 14 official topics above are source-confirmed; additional task titles are editorial proposals based on the wiki systems.
