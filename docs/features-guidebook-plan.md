@@ -1,6 +1,6 @@
 # RDCpedia — Features × Guidebook, pracovní verze 2 (CZ)
 
-> **Stav:** návrh obsahu schválený pouze k diskusi; **web RDCpedie se neměnil**. Nahrazuje dřívější přehnaně rozdrobený seznam 55 kandidátních funkcí a 53 úkolů. **Všech 14 původních tutorialů je zachováno jako zdroj a mapováno níže.**
+> **Stav:** podklad pro implementaci **v0.9 Features × Guidebook**. Tento dokument nahrazuje dřívější přehnaně rozdrobený seznam 55 kandidátních funkcí a 53 úkolů. V aplikaci je na základě plánu připraveno 34 stručných Feature a 24 postupových Guide (anglické texty v `features-data.js` a `guidebook-data.js`). **Všech 14 původních tutorialů je zachováno jako zdroj a mapováno níže.**
 >
 > **Podklady:** wiki soubory Getting Started, Base Infrastructure, Management & Operations, Colonists & Survival, Agriculture & Food, Research, Rooms, Storage Units, Events & Crises, Recipes, Buildings/Items a screenshoty in-game Tutorial Hub poskytnuté 18. 10. 2026.
 >
@@ -161,9 +161,10 @@
 - Připravené, ale v demu neaktivní Hazardous Gases / F5 Plumbing / budoucí počasí a léky: označit stav, nenabízet postup pro neexistující gameplay.
 - Potvrzenou existenci Berserk máme z wiki, ale útoky a reakci utíkajících kolonistů jako přesně popsaný algoritmus nikoliv; ve Feature označit jako vyžadující ověření, netvořit spekulativní Guide.
 
-## Příští krok implementace (zatím neproveden)
+## Implementace v0.9 a další kontrola
 
-1. Kompaktní rozcestník **Features**, 34 krátkých funkčních karet seskupených podle oblasti.
-2. Rozcestník **Guidebook** s tematickými skupinami a odkazy přímo na jednotlivé postupy, ne 24 izolovaných kategorií v bočním menu.
-3. Detail Guide postavit stejným vizuálním jazykem jako původní Tutorial Hub: levá navigace, nadpis, krátký účel, statické ilustrace, postup a odkazy na reálné Buildings/Items/Technology.
-4. Začít ověřitelnými ukázkami **G02 Hull Expansion, G07 Power Grid, G11 Crafting, G16 Meal Assembly, G21 Research**; videa/GIF zatím nepřidávat.
+1. **Features:** všech 34 mechanik je v aplikaci; mají 6 skupin, stručný popis, důležité principy, příslušný Guide a odkazy na existující encyklopedii.
+2. **Guidebook:** všech 24 postupů je v 8 skupinách. Každý obsahuje požadavky, konkrétní kroky, kontrolu úspěchu, řešení problémů a související mechaniky.
+3. **Obrázky:** pouze existující katalogové assety budov a itemů; u skutečných řetězců propojení šipkami, u jiného vybavení bez zavádějících šipek. Žádná videa ani GIF.
+4. **Kontrola před zveřejněním:** otestovat datové odkazy, přechody mezi sekcemi, grafiku a vybrané instrukce ve hře. Návody se po uživatelské kontrole mohou upravit bez přestavby aplikace.
+5. **Controls:** samostatné zpracování zůstává na později.
