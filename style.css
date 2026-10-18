@@ -235,3 +235,53 @@ button.tech-unlock:hover{background:#566970}
 @media(max-width:680px){#workspace.features-mode,#workspace.features-mode.features-overview{grid-template-columns:minmax(113px,31%) minmax(0,1fr)}#workspace.features-mode #article{padding:10px 9px}.content-sidebar .col-nav{font-size:10px;padding:7px 5px}.content-sidebar .col-group{font-size:9px;padding:8px 5px}.content-sidebar .col-home{padding:8px 5px;font-size:10px}.fg-index-card{padding:10px 9px}.fg-index-cards{gap:6px}.fg-crosslink{flex-direction:column;align-items:flex-start}.fg-visual-scroll{justify-content:flex-start}.fg-visual-item{flex-basis:84px;height:111px}.fg-visual-item img{height:69px}.fg-visual-arrow{font-size:16px}.fg-steps li{font-size:11px}}
 
 .fg-visual-dot{flex:0 0 10px;font-size:19px;color:#8da6a9;text-align:center}
+
+/* v1.0 Controls — compact UI reference, no duplicate long guides. */
+#workspace.controls-mode{grid-template-columns:minmax(188px,22%) minmax(0,1fr) minmax(158px,18%);grid-template-areas:'categories article related'}
+#workspace.controls-mode.controls-overview{grid-template-columns:minmax(188px,22%) minmax(0,1fr);grid-template-areas:'categories article'}
+#workspace.controls-mode #middle{display:none}
+#workspace.controls-mode #categories{overflow:auto}
+#workspace.controls-mode #related{display:block}
+#workspace.controls-mode #related.hidden-panel{display:none}
+#workspace.controls-mode #article{padding:19px 25px}
+#workspace.controls-mode #article .controls-article{max-width:1000px}
+.controls-sidebar .col-home{display:block;width:calc(100% - 12px);margin:8px 6px 12px;padding:11px 9px;text-align:left;background:#334c51;border:1px solid #51666b;border-radius:3px;font-size:12px;font-weight:bold}
+.controls-sidebar .col-home.active{background:#5a6066;border-color:#a4a1a2}
+.controls-sidebar .col-group{position:sticky;top:0;background:#34494e;padding:10px 12px 7px;margin-top:9px;border-top:1px solid #506166;border-bottom:1px solid #1a3034;z-index:2;color:#d2dddf;font-weight:bold;font-size:10px;letter-spacing:.7px;text-transform:uppercase}
+.controls-sidebar .col-nav{display:block;text-align:left;width:calc(100% - 12px);margin:3px 6px;padding:8px 10px;border-radius:3px;border:1px solid #354b4e;background:#273c40;font-size:11px;line-height:1.25}
+.controls-sidebar .col-nav:hover,.controls-sidebar .col-home:hover{background:#43595e}
+.controls-sidebar .col-nav.active{background:#656367;border-color:#afa5a5;color:#fff}
+.controls-article h2{margin:20px 0 11px!important;font-size:15px!important}
+.controls-quick{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 16px}
+.controls-quick button{padding:8px 11px;border-radius:4px;background:#2b4448;border:1px solid #526b71}
+.controls-quick button:hover{background:#425b61;border-color:#a2b2b1}
+.controls-keycap{display:inline-block;font-family:ui-monospace,monospace;font-size:11px;color:#e4eded}
+.controls-hot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:11px 0 18px}
+.controls-hot-card{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:13px 12px;background:#30474d;border:1px solid #677477;border-radius:4px;text-align:left;min-height:160px}
+.controls-hot-card:hover{background:#445b61;border-color:#b2a7a1}
+.controls-hot-card small{font-size:9px;letter-spacing:.8px;color:#e9b99b;font-weight:bold}
+.controls-hot-card strong{font-size:12px;line-height:1.35}
+.controls-hot-card span{font-size:10px;line-height:1.5;color:#b9c7c8}
+.controls-hot-card b{margin-top:auto;font-size:10px;color:#e8b99e}
+.controls-home-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.controls-home-group{padding:11px;background:#293f44;border:1px solid #486066;border-radius:3px}
+.controls-home-group h2{font-size:13px!important;margin:3px 0 9px!important;padding-bottom:8px;border-bottom:1px solid #4d6467}
+.controls-home-links{display:flex;flex-direction:column}
+.controls-home-links button{display:flex;justify-content:space-between;gap:8px;text-align:left;padding:8px 0;border:0;border-bottom:1px solid #374e52;background:transparent;font-size:11px}
+.controls-home-links button:hover{color:#f1c6ad}
+.controls-home-links button span{color:#a9bfc1}
+.controls-location{display:flex;flex-direction:column;gap:8px;margin:15px 0 23px;background:#2c4449;border-left:3px solid #85a9aa;border-radius:2px;padding:10px 13px}
+.controls-location span{font-size:10px;letter-spacing:.7px;color:#bcc9ca;font-weight:bold}
+.controls-location strong{font-size:12px;line-height:1.5}
+.controls-actions h2{margin-bottom:11px!important}
+.controls-action-row{display:grid;grid-template-columns:minmax(120px,32%) minmax(0,1fr);gap:14px;padding:10px 8px;border-bottom:1px solid #42595e}
+.controls-action-row:nth-of-type(even){background:#283d42}
+.controls-action-name{font-weight:bold;font-size:11px;color:#ecd0bb;overflow-wrap:anywhere}
+.controls-action-desc{font-size:11px;color:#d1dddc;line-height:1.55}
+.controls-note{background:#2b4145;border-left:3px solid #8baba6;border-radius:2px;padding:2px 12px 7px;margin-top:19px}
+.controls-note-important{border-left-color:#cda47f}
+.controls-note h2{font-size:13px!important;margin:10px 0 5px!important}
+.controls-note p{font-size:12px;line-height:1.6}
+.controls-verification{font-size:11px!important;line-height:1.65;color:#b8c2c4;padding:8px 11px;background:#24393d;border-radius:3px}
+@media(max-width:1100px){#workspace.controls-mode{grid-template-columns:minmax(170px,26%) minmax(0,1fr);grid-template-areas:'categories article'}#workspace.controls-mode.controls-overview{grid-template-columns:minmax(170px,26%) minmax(0,1fr)}#workspace.controls-mode #related{display:none}.controls-hot-grid{grid-template-columns:1fr}.controls-hot-card{min-height:0}}
+@media(max-width:680px){#workspace.controls-mode,#workspace.controls-mode.controls-overview{grid-template-columns:minmax(115px,31%) minmax(0,1fr)}#workspace.controls-mode #article{padding:10px 9px}.controls-sidebar .col-home{font-size:10px;padding:8px 5px}.controls-sidebar .col-nav{font-size:10px;padding:7px 5px}.controls-sidebar .col-group{font-size:9px;padding:8px 5px}.controls-home-groups{grid-template-columns:1fr}.controls-action-row{grid-template-columns:1fr;gap:3px;padding:9px 5px}.controls-hot-card{padding:10px}.controls-quick button{padding:7px 8px}}
