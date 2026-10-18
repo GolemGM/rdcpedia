@@ -8,6 +8,7 @@ const byId=new Map(all.map(e=>[e.id,e]));
 const techByName=new Map(TECHNOLOGIES.map(t=>[t.name,t]));
 const colonistById=new Map(COLONIST_TOPICS.map(t=>[t.id,t]));
 const stationById=new Map(STATION_TOPICS.map(t=>[t.id,t]));
+const environmentById=new Map(ENVIRONMENT_TOPICS.map(t=>[t.id,t]));
 const techGroups=['Start','Food','Liquids','Gas','Industry','Power','Base','Lifestyle','Medical'];
 const normalize=s=>String(s||'').replace(/\s+/g,' ').trim().toLowerCase();
 const byName=new Map(all.map(e=>[normalize(e.title),e]));
@@ -22,6 +23,7 @@ function detail(e){goto({view:'detail',tab:e.kind,category:e.category,id:e.id});
 function techDetail(name){const t=techByName.get(name);if(t)goto({view:'tech',tab:'Technology',category:t.group,id:t.name});}
 function colonistDetail(id){const t=colonistById.get(id);if(t)goto({view:'colonist',tab:'Colonists',category:'All',id});}
 function stationDetail(id){const t=stationById.get(id);if(t)goto({view:'station',tab:'Station',category:'All',id});}
+function environmentDetail(id){const t=environmentById.get(id);if(t)goto({view:'environment',tab:'Environment',category:'All',id});}
 function clearSearch(){suggestions=[];selectedSuggestion=0;$('search').value='';$('search-suggest').hidden=true;$('search-suggest').innerHTML='';}
 function searchMatches(q){const term=normalize(q);if(!term)return [];return all.filter(e=>normalize(e.title).includes(term)).sort((a,b)=>{const aStart=normalize(a.title).startsWith(term)?0:1,bStart=normalize(b.title).startsWith(term)?0:1;return aStart-bStart||a.title.localeCompare(b.title);}).slice(0,8);}
 function showSuggestions(){const box=$('search-suggest');suggestions=searchMatches($('search').value);selectedSuggestion=0;box.innerHTML=suggestions.map((e,i)=>`<button type="button" role="option" aria-selected="${i===0}" data-search-id="${escape(e.id)}"><span>${escape(e.title)}</span><small>${escape(e.kind)}</small></button>`).join('');box.hidden=!suggestions.length;}
@@ -35,8 +37,15 @@ function toHtml(raw){const lines=String(raw||'').split('\n');let out='',list=fal
  if(s.startsWith('*')){if(!list){out+='<ul>';list=true;}out+='<li>'+linkText(s.replace(/^\*+\s*/,''))+'</li>';continue;}close();if(/^==+/.test(s)){out+='<h3>'+linkText(s.replace(/^=+|=+$/g,'').trim())+'</h3>';continue;}if(/^\{\{/.test(s)&&!s.startsWith('{{1|')){out+='<p class="template-note">'+escape(s)+'</p>';continue;}out+='<p>'+linkText(s)+'</p>';
  }close();return out;}
 function renderTabs(){$('tabs').innerHTML=tabs.map((t,i)=>`<button data-tab="${t}" class="${state.tab===t&&state.view!=='home'?'active':''}"><b>${icons[i]}</b><span>${t}</span></button>`).join('');}
-function renderCrumb(){const p=[{label:'Home',action:'home'}];if(state.view!=='home'){p.push({label:state.tab,action:'tab'});if(state.category!=='All'&&['category','detail'].includes(state.view))p.push({label:state.category,action:'cat'});if(state.view==='detail')p.push({label:byId.get(state.id)?.title||'',action:'none'});if(state.view==='tech')p.push({label:state.id||'',action:'none'});if(state.view==='colonist')p.push({label:colonistById.get(state.id)?.title||'',action:'none'});if(state.view==='station')p.push({label:stationById.get(state.id)?.title||'',action:'none'});} $('crumb').innerHTML=p.map((x,i)=>`<button data-crumb="${x.action}" ${x.action==='none'?'disabled':''}>${escape(x.label)}</button>${i<p.length-1?'<span>›</span>':''}`).join('');$('back').disabled=position===0;$('forward').disabled=position===visits.length-1;}
-function renderCategory(){const cat=$('categories');const m=$('middle');const detailed=state.view==='detail';if(state.tab==='Station'&&state.view!=='home'){
+function renderCrumb(){const p=[{label:'Home',action:'home'}];if(state.view!=='home'){p.push({label:state.tab,action:'tab'});if(state.category!=='All'&&['category','detail'].includes(state.view))p.push({label:state.category,action:'cat'});if(state.view==='detail')p.push({label:byId.get(state.id)?.title||'',action:'none'});if(state.view==='tech')p.push({label:state.id||'',action:'none'});if(state.view==='colonist')p.push({label:colonistById.get(state.id)?.title||'',action:'none'});if(state.view==='station')p.push({label:stationById.get(state.id)?.title||'',action:'none'});if(state.view==='environment')p.push({label:environmentById.get(state.id)?.title||'',action:'none'});} $('crumb').innerHTML=p.map((x,i)=>`<button data-crumb="${x.action}" ${x.action==='none'?'disabled':''}>${escape(x.label)}</button>${i<p.length-1?'<span>›</span>':''}`).join('');$('back').disabled=position===0;$('forward').disabled=position===visits.length-1;}
+function renderCategory(){const cat=$('categories');const m=$('middle');const detailed=state.view==='detail';if(state.tab==='Environment'&&state.view!=='home'){
+ cat.className='panel environment-sidebar';
+ cat.innerHTML='<button class="col-home '+(state.view==='category'?'active':'')+'" data-tab="Environment">▣ &nbsp;Environment Overview</button>'
+  +'<div class="env-sidebar-heading">ATMOSPHERES</div>'
+  +ENVIRONMENT_TOPICS.map((t,i)=>'<button class="env-nav '+(state.view==='environment'&&state.id===t.id?'active':'')+'" data-env-topic="'+escape(t.id)+'"><span class="env-nav-icon">'+['△','◉','♟'][i]+'</span><span>'+escape(t.title)+'</span></button>').join('');
+ m.innerHTML='';return;
+}
+if(state.tab==='Station'&&state.view!=='home'){
  cat.className='panel station-sidebar';
  cat.innerHTML='<button class="col-home '+(state.view==='category'?'active':'')+'" data-tab="Station">▣ &nbsp;Station Overview</button>'
   +STATION_GROUPS.map(group=>'<div class="col-group">'+escape(group.title)+'</div>'
@@ -199,9 +208,72 @@ function renderStationTopic(){
  renderStationRelated(t);
 }
 
+
+/* Environment: three linked explanatory articles, not more small topic pages.
+   Verified demo descriptions remain distinct from player observations. */
+function environmentText(value){
+ let html=escape(value).replace(/\[\[(environment|station|colonist|building|item|tech|tab):([^\]|]+)(?:\|([^\]]+))?\]\]/g,(_match,kind,key,label)=>{
+  const safe=escape(label||key);
+  if(kind==='environment')return environmentById.has(key)?'<button class="col-inline" data-env-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  if(kind==='station')return stationById.has(key)?'<button class="col-inline" data-st-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  if(kind==='colonist')return colonistById.has(key)?'<button class="col-inline" data-col-topic="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  if(kind==='building'||kind==='item'){
+   const e=byName.get(normalize(key));
+   return e&&e.kind===(kind==='building'?'Buildings':'Items')?'<button class="col-inline" data-id="'+escape(e.id)+'">'+safe+' ↗</button>':safe;
+  }
+  if(kind==='tech')return techByName.has(key)?'<button class="col-inline" data-tech="'+escape(key)+'">'+safe+' ↗</button>':safe;
+  if(kind==='tab')return ['Buildings','Items','Technology','Colonists','Station','Environment'].includes(key)
+   ?'<button class="col-inline" data-tab="'+escape(key)+'">'+safe+' ↗</button>'
+   :'<span class="col-unavailable" title="Section not yet available">'+safe+'</span>';
+  return safe;
+ });
+ html=html.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
+ return html;
+}
+function renderEnvironmentRelated(t){
+ const html=(t.related||[]).map(ref=>{
+  const n=ref.indexOf(':'),kind=ref.slice(0,n),key=ref.slice(n+1);
+  if(kind==='environment'){const e=environmentById.get(key);return e&&e.id!==t.id?'<button class="related-link" data-env-topic="'+escape(key)+'"><span>'+escape(e.title)+'<small>Environment</small></span></button>':'';}
+  if(kind==='station'){const s=stationById.get(key);return s?'<button class="related-link" data-st-topic="'+escape(key)+'"><span>'+escape(s.title)+'<small>Station</small></span></button>':'';}
+  if(kind==='colonist'){const c=colonistById.get(key);return c?'<button class="related-link" data-col-topic="'+escape(key)+'"><span>'+escape(c.title)+'<small>Colonists</small></span></button>':'';}
+  if(kind==='building'||kind==='item'){
+   const e=byName.get(normalize(key));
+   return e&&e.kind===(kind==='building'?'Buildings':'Items')?'<button class="related-link" data-id="'+escape(e.id)+'"><img src="'+img(e)+'" alt="" loading="lazy"><span>'+escape(e.title)+'<small>'+escape(kind==='building'?'Building':'Item')+'</small></span></button>':'';
+  }
+  if(kind==='tech')return techByName.has(key)?'<button class="related-link" data-tech="'+escape(key)+'"><span>'+escape(key)+'<small>Technology</small></span></button>':'';
+  return '';
+ }).filter(Boolean);
+ $('related').innerHTML='<div class="panel-title">RELATED</div>'+html.slice(0,12).join('');
+ $('related').classList.toggle('hidden-panel',!html.length);
+}
+function renderEnvironmentHome(){
+ const details={
+  outdoor:'Surface conditions, dust storms, weather restrictions and consequences for outdoor work and power generation.',
+  indoor:'Life-support conditions inside the hull: oxygen supply, rising carbon dioxide and movement of air between rooms.',
+  social:'Shared leisure time, social needs, Mood and the risk of mental breakdowns.'
+ };
+ const icons={outdoor:'△',indoor:'◉',social:'♟'};
+ $('article').innerHTML='<div class="colonist-article env-article env-intro">'
+  +'<p class="col-eyebrow">ENVIRONMENTAL SYSTEMS</p><h1>Environment</h1>'
+  +'<p class="col-lead">The conditions around and inside your Martian station influence both its infrastructure and the people who live there. Environment covers three connected atmospheres: the surface, the air inside the base and the social conditions of the crew.</p>'
+  +'<p>These pages focus on <strong>why conditions matter and what happens when they deteriorate</strong>. Station explains how to build and operate the equipment; Colonists explains the needs and health of individual people.</p>'
+  +'<div class="env-home-grid">'+ENVIRONMENT_TOPICS.map(t=>'<button class="env-home-card" data-env-topic="'+escape(t.id)+'"><span class="env-home-icon">'+icons[t.id]+'</span><span class="env-home-name">'+escape(t.title)+'</span><small>'+escape(details[t.id])+'</small><span class="env-home-more">Explore →</span></button>').join('')+'</div>'
+  +'<h2>How these systems connect</h2>'
+  +'<p>A dust storm can interrupt solar generation and put life support at risk. Low oxygen or excess CO2 directly threaten physical health. Poor social conditions and stressful work can then reduce Mood and increase accident or breakdown risks. None of these systems can be managed reliably in isolation.</p>'
+  +'<p class="col-reference-note">Based on the demo-era Red Dust Colony wiki. Approximate thresholds, inactive mechanics and player-observed behaviour are identified within the articles.</p></div>';
+ $('related').innerHTML='';$('related').classList.add('hidden-panel');
+}
+function renderEnvironmentTopic(){
+ const t=environmentById.get(state.id);
+ if(!t){renderEnvironmentHome();return;}
+ const sections=t.sections.map((s,i)=>'<section class="col-section" id="environment-section-'+i+'"><h2>'+escape(s.title)+'</h2>'+(s.paragraphs||[]).map(p=>'<p>'+environmentText(p)+'</p>').join('')+(s.bullets&&s.bullets.length?'<ul>'+s.bullets.map(b=>'<li>'+environmentText(b)+'</li>').join('')+'</ul>':'')+'</section>').join('');
+ $('article').innerHTML='<div class="colonist-article env-article"><p class="col-eyebrow">ENVIRONMENT</p><h1>'+escape(t.title)+'</h1><p class="env-subtitle">'+escape(t.subtitle)+'</p><p class="col-lead">'+escape(t.lead)+'</p>'+sections+'<div class="col-end-links"><button data-tab="Environment">‹ Environment Overview</button></div></div>';
+ renderEnvironmentRelated(t);
+}
+
 function renderPlaceholder(){$('article').innerHTML=`<div class="overview"><h1>${escape(state.tab)}</h1><p class="intro">This section is prepared for the thematic wiki content. Its source articles have not yet been integrated in this preview.</p></div>`;$('related').innerHTML='';$('related').classList.add('hidden-panel');}
-function render(){renderTabs();renderCrumb();renderCategory();$('workspace').className=state.view==='detail'||state.view==='tech'?'detail-mode':state.view==='home'?'home-mode':'index-mode';if(state.view==='tech')$('workspace').classList.add('technology-mode');if(state.tab==='Colonists'&&state.view!=='home')$('workspace').classList.add('colonists-mode');if(state.tab==='Station'&&state.view!=='home')$('workspace').classList.add('station-mode');if(state.tab==='Technology'&&state.view==='category')$('workspace').classList.add('technology-index');if(state.view==='home')renderHome();else if(state.view==='detail')renderDetail();else if(state.view==='tech')renderTechnology();else if(state.tab==='Technology')renderTechnologyHome();else if(state.view==='colonist')renderColonistTopic();else if(state.tab==='Colonists')renderColonistHome();else if(state.view==='station')renderStationTopic();else if(state.tab==='Station')renderStationHome();else if(['Buildings','Items'].includes(state.tab))renderOverview();else renderPlaceholder();$('article').scrollTop=0;}
-function clickEvent(e){let b=e.target.closest('button,a[data-link]');if(!b)return;if(b.dataset.stTopic){stationDetail(b.dataset.stTopic);return;}if(b.dataset.colTopic){colonistDetail(b.dataset.colTopic);return;}if(b.dataset.tech){techDetail(b.dataset.tech);return;}if(b.dataset.tab){categoryView(b.dataset.tab);return;}if(b.dataset.crumb){let c=b.dataset.crumb;if(c==='home')goto({view:'home',tab:'Buildings',category:'All',id:null});if(c==='tab')categoryView(state.tab);if(c==='cat')categoryView(state.tab,state.category);return;}if(b.dataset.cat){categoryView(state.tab,b.dataset.cat);return;}if(b.dataset.id){const v=byId.get(b.dataset.id);if(v)detail(v);return;}if(b.dataset.home){categoryView(b.dataset.home);return;}if(b.dataset.showall){categoryView(state.tab,state.category);return;}if(b.dataset.quick){let set=all.filter(x=>x.kind===state.tab&&(state.category==='All'||x.category===state.category)).sort((a,b)=>a.title.localeCompare(b.title));let i=set.findIndex(x=>x.id===state.id);let n=set[(i+(b.dataset.quick==='next'?1:-1)+set.length)%set.length];if(n)detail(n);return;}if(b.dataset.section){$('article').querySelector('#'+b.dataset.section)?.scrollIntoView({behavior:'smooth',block:'start'});return;}if(b.dataset.link){let dest=byName.get(normalize(b.dataset.link));if(dest)detail(dest);return;}}
+function render(){renderTabs();renderCrumb();renderCategory();$('workspace').className=state.view==='detail'||state.view==='tech'?'detail-mode':state.view==='home'?'home-mode':'index-mode';if(state.view==='tech')$('workspace').classList.add('technology-mode');if(state.tab==='Colonists'&&state.view!=='home')$('workspace').classList.add('colonists-mode');if(state.tab==='Station'&&state.view!=='home')$('workspace').classList.add('station-mode');if(state.tab==='Environment'&&state.view!=='home')$('workspace').classList.add('environment-mode');if(state.tab==='Technology'&&state.view==='category')$('workspace').classList.add('technology-index');if(state.view==='home')renderHome();else if(state.view==='detail')renderDetail();else if(state.view==='tech')renderTechnology();else if(state.tab==='Technology')renderTechnologyHome();else if(state.view==='colonist')renderColonistTopic();else if(state.tab==='Colonists')renderColonistHome();else if(state.view==='station')renderStationTopic();else if(state.tab==='Station')renderStationHome();else if(state.view==='environment')renderEnvironmentTopic();else if(state.tab==='Environment')renderEnvironmentHome();else if(['Buildings','Items'].includes(state.tab))renderOverview();else renderPlaceholder();$('article').scrollTop=0;}
+function clickEvent(e){let b=e.target.closest('button,a[data-link]');if(!b)return;if(b.dataset.envTopic){environmentDetail(b.dataset.envTopic);return;}if(b.dataset.stTopic){stationDetail(b.dataset.stTopic);return;}if(b.dataset.colTopic){colonistDetail(b.dataset.colTopic);return;}if(b.dataset.tech){techDetail(b.dataset.tech);return;}if(b.dataset.tab){categoryView(b.dataset.tab);return;}if(b.dataset.crumb){let c=b.dataset.crumb;if(c==='home')goto({view:'home',tab:'Buildings',category:'All',id:null});if(c==='tab')categoryView(state.tab);if(c==='cat')categoryView(state.tab,state.category);return;}if(b.dataset.cat){categoryView(state.tab,b.dataset.cat);return;}if(b.dataset.id){const v=byId.get(b.dataset.id);if(v)detail(v);return;}if(b.dataset.home){categoryView(b.dataset.home);return;}if(b.dataset.showall){categoryView(state.tab,state.category);return;}if(b.dataset.quick){let set=all.filter(x=>x.kind===state.tab&&(state.category==='All'||x.category===state.category)).sort((a,b)=>a.title.localeCompare(b.title));let i=set.findIndex(x=>x.id===state.id);let n=set[(i+(b.dataset.quick==='next'?1:-1)+set.length)%set.length];if(n)detail(n);return;}if(b.dataset.section){$('article').querySelector('#'+b.dataset.section)?.scrollIntoView({behavior:'smooth',block:'start'});return;}if(b.dataset.link){let dest=byName.get(normalize(b.dataset.link));if(dest)detail(dest);return;}}
 $('pedia').addEventListener('click',clickEvent);
 $('brand').onclick=()=>goto({view:'home',tab:'Buildings',category:'All',id:null});
 $('open-button').onclick=()=>{$('overlay').classList.remove('hidden');render();};
